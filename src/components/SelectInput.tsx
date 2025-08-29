@@ -28,7 +28,7 @@ const SelectInput: FC<SelectInputProps> = ({
   isRequired,
 }) => {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 bg-white">
       <label className="text-sm font-medium text-gray-700">
         {label} {isRequired && <span className="text-red-500">*</span>}
       </label>
@@ -41,7 +41,7 @@ const SelectInput: FC<SelectInputProps> = ({
         >
           <SelectValue placeholder={placeholder || 'Select an option'} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='bg-white'>
           {options.map((option) => (
             <SelectItem key={String(option.value)} value={String(option.value)}>
               {option.inputDisplay}
