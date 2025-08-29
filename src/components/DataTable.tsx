@@ -25,7 +25,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 interface DataTableProps {
   data: ILocation[];
   onEdit: (location: ILocation) => void;
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 const DataTable: FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
