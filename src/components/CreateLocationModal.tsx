@@ -584,7 +584,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
                     <p className="font-medium mb-1">Tips for using the map:</p>
                     <ul className="list-disc pl-5 space-y-1">
                       <li>Search and press Enter or click Search</li>
-                      <li>**Click on 'My Location' to auto-fill details**</li>
+                      <li>**Click on &apos;My Location&apos; to auto-fill details**</li>
                       <li>Click on the map to set a location</li>
                       <li>Drag the marker to adjust the position</li>
                     </ul>
