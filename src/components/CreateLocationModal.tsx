@@ -19,7 +19,7 @@ import useMessage from "@/hooks/useMessage";
 import useCreateLocation from "@/hooks/useCreateLocation";
 import useUpdateLocation from "@/hooks/useUpdateLocation";
 import { loadGoogleMapsAPI, COUNTRIES } from "@/utils/api";
-import { MapPin, Search, Navigation, Info, RefreshCcw } from "lucide-react";
+import { MapPin, Search, Navigation, Info, RefreshCcw, Locate } from "lucide-react";
 import { nanoid } from 'nanoid';
 
 declare global {
@@ -45,6 +45,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
 
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
   const [hasSearchedLocation, setHasSearchedLocation] = useState(false);
 
   const refs = useRef<GoogleMapsRefs>({
@@ -56,6 +57,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
   });
 
   const isInitialLoad = useRef(true);
+  const locationAttemptedRef = useRef(false); // New ref to prevent re-running
 
   const form = useForm<ILocationPayload>({
     mode: "onChange",
@@ -155,6 +157,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
       }
 
       setHasSearchedLocation(true);
+      refs.current.mapInstance.setCenter({ lat, lng });
 
       const geocoder = new window.google.maps.Geocoder();
       const response = await geocoder.geocode({ location: { lat, lng } });
@@ -231,6 +234,40 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
     }
   }, [isGoogleMapsLoaded, message, parseGooglePlaceData, updateMapView]);
 
+  const handleGetCurrentLocation = useCallback(() => {
+    if (!navigator.geolocation || isLocating || isGeocoding) {
+      message({ status: "warning", message: "Geolocation is not supported or is currently in use." });
+      return;
+    }
+
+    setIsLocating(true);
+    message({ status: "info", message: "Attempting to get your current location..." });
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        handleMapInteraction(latitude, longitude);
+        message({ status: "success", message: "Location found!" });
+        setIsLocating(false);
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        let errorMessage = "Could not retrieve your location. Please try again.";
+        if (error.code === 1) {
+          errorMessage = "Location access was denied. Please allow it in your browser settings.";
+        }
+        message({ status: "error", message: errorMessage });
+        setIsLocating(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  }, [handleMapInteraction, isLocating, isGeocoding, message]);
+
+  // Main useEffect to handle map and data initialization
   useEffect(() => {
     if (!isOpen) return;
 
@@ -249,8 +286,15 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
     }
   }, [isOpen, message]);
 
+  // Use a separate useEffect to handle map setup and initial location request
   useEffect(() => {
-    if (!isOpen || !isGoogleMapsLoaded || !refs.current.map || refs.current.mapInstance) return;
+    if (!isOpen || !isGoogleMapsLoaded || !refs.current.map || refs.current.mapInstance) {
+      if (!isOpen) {
+        // Reset the ref when the modal is closed
+        locationAttemptedRef.current = false;
+      }
+      return;
+    }
 
     let initialCenter = { lat: 20, lng: 0 };
     let initialZoom = 2;
@@ -310,9 +354,15 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
         parseGooglePlaceData(place);
       });
     }
+  }, [isOpen, isGoogleMapsLoaded, newData, handleMapInteraction, updateMapView, handleManualSearch, parseGooglePlaceData]);
 
-    return cleanupGoogleMaps;
-  }, [isOpen, isGoogleMapsLoaded, newData, handleMapInteraction, updateMapView, handleManualSearch, parseGooglePlaceData, cleanupGoogleMaps]);
+  // This useEffect handles the initial location request once per modal open
+  useEffect(() => {
+    if (isOpen && isGoogleMapsLoaded && !newData && !locationAttemptedRef.current) {
+      handleGetCurrentLocation();
+      locationAttemptedRef.current = true;
+    }
+  }, [isOpen, isGoogleMapsLoaded, newData, handleGetCurrentLocation]);
 
   const onSubmit: SubmitHandler<ILocationPayload> = (inputs) => {
     const mutateFn = newData ? updateMutate : createMutate;
@@ -414,14 +464,14 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
                   <TextInput
                     label="Complete Address"
                     isRequired
-                    placeholder="Auto-filled from search"
+                    placeholder="Auto-filled from search or current location"
                     {...form.register("address")}
                     error={form.formState.errors?.address}
                   />
                   <TextInput
                     label="City"
                     isRequired
-                    placeholder="Auto-filled from search"
+                    placeholder="Auto-filled from search or current location"
                     {...form.register("city")}
                     error={form.formState.errors?.city}
                   />
@@ -439,7 +489,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
                           inputDisplay: country.name,
                           value: country.code,
                         }))}
-                        placeholder="Auto-selected from search"
+                        placeholder="Auto-selected from search or current location"
                       />
                     )}
                   />
@@ -481,24 +531,37 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
                       ref={(el) => { refs.current.search = el; }}
                       type="text"
                       placeholder="Search: New York, Eiffel Tower..."
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50"
+                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50"
                       disabled={isGeocoding || !isGoogleMapsLoaded}
                       onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleManualSearch())}
                     />
-                  </div>
-                  <button
+                  <Button
                     type="button"
                     onClick={handleManualSearch}
                     disabled={isGeocoding || !isGoogleMapsLoaded}
-                    className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2"
+                    className="bg-blue-600 text-white px-4 py-6 absolute right-0 top-0 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2"
                   >
                     {isGeocoding ? (
                       <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
                     ) : (
                       <Search className="h-4 w-4" />
                     )}
-                    {isGeocoding ? "Searching..." : "Search"}
-                  </button>
+                    {/* {isGeocoding ? "..." : "S"} */}
+                  </Button>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={handleGetCurrentLocation}
+                    disabled={isGeocoding || isLocating}
+                    className="bg-blue-100 text-blue-600 hover:bg-blue-200 px-4 py-6 text-[10px] rounded-lg flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {isLocating ? (
+                      <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full" />
+                    ) : (
+                      <Locate className="h-4 w-4" />
+                    )}
+                    {isLocating ? "Locating..." : "My Location"}
+                  </Button>
                 </div>
                 
                 <div className="w-full h-[300px] bg-gray-100 rounded-lg border border-gray-300 overflow-hidden relative">
@@ -521,9 +584,9 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
                     <p className="font-medium mb-1">Tips for using the map:</p>
                     <ul className="list-disc pl-5 space-y-1">
                       <li>Search and press Enter or click Search</li>
+                      <li>**Click on 'My Location' to auto-fill details**</li>
                       <li>Click on the map to set a location</li>
                       <li>Drag the marker to adjust the position</li>
-                      <li>Address fields will auto-populate</li>
                     </ul>
                   </div>
                 </div>
@@ -543,7 +606,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
             <CustomButton 
               type="submit" 
               isLoading={isCreating || isUpdating}
-              disabled={isGeocoding}
+              disabled={isGeocoding || isLocating}
               className="bg-blue-600 hover:bg-blue-700 px-5 py-2"
             >
               {newData ? "Update Location" : "Create Location"}
