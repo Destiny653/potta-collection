@@ -21,46 +21,48 @@ interface DataTableProps {
   onEdit: (location: ILocation) => void;
 }
 
-const columns: ColumnDef<ILocation>[] = [
-  {
-    accessorKey: "business_name",
-    header: "Business Name",
-  },
-  {
-    accessorKey: "contact_number",
-    header: "Contact Number",
-  },
-  {
-    accessorKey: "address",
-    header: "Address",
-  },
-  {
-    accessorKey: "city",
-    header: "City",
-  },
-  {
-    accessorKey: "country",
-    header: "Country",
-  },
-  {
-    accessorKey: "referral_code",
-    header: "Referral Code",
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => (
-      <Button variant="outline" size="sm" onClick={() => row.original && (row.original as any).onEdit(row.original)}>
-        Edit
-      </Button>
-    ),
-  },
-];
-
 const DataTable: FC<DataTableProps> = ({ data, onEdit }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [globalFilter, setGlobalFilter] = useState('');
+
+  // Define columns inside the component to access the `onEdit` prop
+  const columns: ColumnDef<ILocation>[] = [
+    {
+      accessorKey: "business_name",
+      header: "Business Name",
+    },
+    {
+      accessorKey: "contact_number",
+      header: "Contact Number",
+    },
+    {
+      accessorKey: "address",
+      header: "Address",
+    },
+    {
+      accessorKey: "city",
+      header: "City",
+    },
+    {
+      accessorKey: "country",
+      header: "Country",
+    },
+    {
+      accessorKey: "referral_code",
+      header: "Referral Code",
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        // Correctly call the `onEdit` prop from the component
+        <Button variant="outline" size="sm" onClick={() => onEdit(row.original)}>
+          Edit
+        </Button>
+      ),
+    },
+  ];
 
   const table = useReactTable({
     data,

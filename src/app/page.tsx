@@ -4,7 +4,7 @@ import { useState } from 'react';
 import CreateLocationModal from '@/components/CreateLocationModal';
 import DataTable from '@/components/DataTable';
 import { Button } from '@/components/ui/button';
-import toast, { Toaster } from 'react-hot-toast';
+import  { Toaster } from 'react-hot-toast';
 import { ILocation } from '@/types';
 import useGetLocations from '@/hooks/useGetLocations';
 import { 

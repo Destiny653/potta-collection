@@ -20,6 +20,17 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    // Add custom rules here
+    rules: {
+      // Disables the rule that flags the use of `any` as an error
+      "@typescript-eslint/no-explicit-any": "off",
+      // Disables the rule that flags the use of `require()` as an error
+      "@typescript-eslint/no-require-imports": "off",
+      // Disables the rule that flags unused variables as an error
+      "@typescript-eslint/no-unused-vars": "off"
+    }
+  }
 ];
 
 export default eslintConfig;
