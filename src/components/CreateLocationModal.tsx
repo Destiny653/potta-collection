@@ -504,7 +504,7 @@ const CreateLocationModal: FC<ISheet<ILocation>> = ({ isOpen, onClose, data }) =
                     <Button
                       type="button"
                       onClick={generateReferralCode}
-                      className="mt-7 bg-blue-100 text-blue-600 hover:bg-blue-200 px-4 py-2 rounded-lg flex items-center gap-2"
+                      className="mt-6 bg-blue-100 text-blue-600 flex-grow hover:bg-blue-200 px-4 py-5 rounded-lg flex items-center gap-2"
                     >
                       <RefreshCcw className="h-4 w-4" />
                       Generate
