@@ -91,7 +91,7 @@ const DataTable: FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-center">
           <Button variant="outline" size="sm" className=" cursor-pointer" onClick={() => onEdit(row.original)}>
             <Edit className="h-4 w-4 mr-2" /> Edit
           </Button>
@@ -137,7 +137,7 @@ const DataTable: FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="text-center">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -152,7 +152,7 @@ const DataTable: FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="text-center">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -171,46 +171,68 @@ const DataTable: FC<DataTableProps> = ({ data, onEdit, onDelete }) => {
 
       {/* Show pagination buttons only when there is more than one page */}
       {table.getPageCount() > 1 && (
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+        <div className="flex items-center justify-between py-4 px-2">
+          <div className="text-sm text-gray-700 font-medium">
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="px-4"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="px-4"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
       {/* Custom Confirmation Dialog */}
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-        <DialogContent className="max-w-xl h-38">
-          <DialogHeader>
-            <DialogTitle className="text-[#25b308]">Confirm Deletion</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete the location for **{locationToDelete?.business_name}**? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsConfirmOpen(false)}>
+        <DialogContent className="max-w-md">
+          <div className="flex items-center space-x-4">
+            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+              <Trash2 className="h-6 w-6 text-red-600" />
+            </div>
+            <DialogHeader className="text-left">
+              <DialogTitle className="text-gray-900 text-xl">Delete Location</DialogTitle>
+              <DialogDescription className="text-gray-600 mt-2">
+                Are you sure you want to delete **{locationToDelete?.business_name}**? This action cannot be undone and will remove all associated data.
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+          <DialogFooter className="mt-6 gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsConfirmOpen(false)}
+              className="flex-1 sm:flex-none"
+            >
               Cancel
             </Button>
             <Button
-              variant="outline"
-              className="text-red-500"
+              variant="destructive"
+              className="bg-red-600 hover:bg-red-700 text-white flex-1 sm:flex-none"
               onClick={handleConfirmDelete}
               disabled={isDeleting}
             >
-              {isDeleting ? 'Deleting...' : 'Confirm'}
+              {isDeleting ? (
+                <div className="flex items-center space-x-2">
+                  <div className="h-4 w-4 animate-spin border-2 border-white border-t-transparent rounded-full" />
+                  <span>Deleting...</span>
+                </div>
+              ) : 'Delete Location'}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,6 +1,6 @@
 // Do not define ILocationPayload here.
 // Instead, import it from the validation file as the single source of truth.
-import { ILocationPayload } from "@/utils/validation";
+import { ILocationPayload, IProductPayload } from "@/utils/validation";
 
 export interface ILocation {
   id: string;
@@ -15,7 +15,16 @@ export interface ILocation {
 }
 
 // Re-export the type so it's available throughout your application
-export type { ILocationPayload };
+export type { ILocationPayload, IProductPayload };
+
+export interface IProduct {
+  id: string;
+  name: string;
+  barcode: string;
+  size: string;
+  image_url?: string;
+  created_at?: string;
+}
 
 export interface ISheet<T> {
   isOpen: boolean;
