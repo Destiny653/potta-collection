@@ -200,7 +200,7 @@ export default function Home() {
                 <h2 className="text-3xl font-bold mb-2">Welcome back!</h2>
                 <p className="text-blue-100 text-lg opacity-90 max-w-2xl">
                   Manage your business locations and products efficiently from one place.
-                  View analytics, track inventory, and grow your presence.
+                  View analytics, track inventory, and grow your presence With ease.
                 </p>
               </div>
 
