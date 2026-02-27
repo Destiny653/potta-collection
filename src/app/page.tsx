@@ -1,326 +1,163 @@
 'use client';
 
-import { useState } from 'react';
-import CreateLocationModal from '@/components/CreateLocationModal';
-import CreateProductModal from '@/components/CreateProductModal';
-import DataTable from '@/components/DataTable';
-import ProductsTable from '@/components/ProductsTable';
+import React, { useState } from 'react';
+import SurveyForm from '@/components/SurveyForm';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ShieldCheck, ArrowRight, Building2, LayoutDashboard, Microscope, BookOpen, AlertCircle, Award, Lock, UserCheck } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
-import { ILocation, IProduct } from '@/types';
-import useGetLocations from '@/hooks/useGetLocations';
-import useGetProducts from '@/hooks/useGetProducts';
-import {
-  LayoutDashboard,
-  MapPin,
-  Plus,
-  Menu,
-  X,
-  Settings,
-  Package,
-  ChevronRight,
-  ArrowRight
-} from 'lucide-react';
+import Link from 'next/link';
 
-export default function Home() {
-  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<ILocation | undefined>(undefined);
-  const [selectedProduct, setSelectedProduct] = useState<IProduct | undefined>(undefined);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
+export default function SurveyPage() {
+  const [hasAgreed, setHasAgreed] = useState(false);
+  const [checked, setChecked] = useState(false);
 
-  const { data: locations, isLoading: isLoadingLocations, refetch: refetchLocations } = useGetLocations();
-  const { data: products, isLoading: isLoadingProducts, refetch: refetchProducts } = useGetProducts();
-
-  const handleEditLocation = (location: ILocation) => {
-    setSelectedLocation(location);
-    setIsLocationModalOpen(true);
-  };
-
-  const handleEditProduct = (product: IProduct) => {
-    setSelectedProduct(product);
-    setIsProductModalOpen(true);
-  };
-
-  const handleCloseLocationModal = () => {
-    setIsLocationModalOpen(false);
-    setSelectedLocation(undefined);
-    refetchLocations();
-  };
-
-  const handleCloseProductModal = () => {
-    setIsProductModalOpen(false);
-    setSelectedProduct(undefined);
-    refetchProducts();
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50 flex gap-0">
-      <Toaster position="top-right" />
-
-      {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 h-[100vh] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center justify-between p-4 border-b border-gray-800">
-          <div className="flex items-center space-x-2">
-            <MapPin className="h-8 w-8 text-blue-400" />
-            <h1 className="text-xl font-bold">Location Manager</h1>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden text-gray-400 hover:text-white hover:bg-gray-800"
-            onClick={() => setIsSidebarOpen(false)}
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-
-        <nav className="p-4 space-y-2">
-          <button
-            className={`flex items-center space-x-3 w-full p-3 rounded-lg transition-colors ${activeTab === 'dashboard' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-800'}`}
-            onClick={() => setActiveTab('dashboard')}
-          >
-            <LayoutDashboard className="h-5 w-5" />
-            <span>Dashboard</span>
-          </button>
-
-          <button
-            className={`flex items-center space-x-3 w-full p-3 rounded-lg transition-colors ${activeTab === 'locations' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-800'}`}
-            onClick={() => {
-              setActiveTab('locations');
-              setIsSidebarOpen(false);
-            }}
-          >
-            <MapPin className="h-5 w-5" />
-            <span>Locations</span>
-          </button>
-
-          <button
-            className={`flex items-center space-x-3 w-full p-3 rounded-lg transition-colors ${activeTab === 'products' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-800'}`}
-            onClick={() => {
-              setActiveTab('products');
-              setIsSidebarOpen(false);
-            }}
-          >
-            <Package className="h-5 w-5" />
-            <span>Products</span>
-          </button>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className=" w-full">
-        {/* Header */}
-        <header className="bg-white shadow-sm border-b w-full">
-          <div className="flex items-center justify-between p-4">
-            <div className="flex items-center">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden mr-2"
-                onClick={() => setIsSidebarOpen(true)}
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {activeTab === 'dashboard' && 'Dashboard Overview'}
-                {activeTab === 'locations' && 'Location Management'}
-                {activeTab === 'products' && 'Product Management'}
-                {activeTab === 'settings' && 'Settings'}
-              </h1>
-            </div>
-
-            {activeTab === 'locations' && (
-              <Button
-                onClick={() => setIsLocationModalOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 flex items-center space-x-2 text-white"
-              >
-                <Plus className="h-4 w-4" />
-                <span>Add Location</span>
-              </Button>
-            )}
-
-            {activeTab === 'products' && (
-              <Button
-                onClick={() => setIsProductModalOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 flex items-center space-x-2 text-white"
-              >
-                <Plus className="h-4 w-4" />
-                <span>Add Product</span>
-              </Button>
-            )}
-          </div>
-        </header>
-
-        {/* Main Content Area */}
-        <main className="p-6 w-full">
-          {activeTab === 'locations' && (
-            <div className="bg-white rounded-lg shadow-sm border">
-              <div className="p-6 border-b">
-                <h2 className="text-xl font-semibold text-gray-900">All Locations</h2>
-                <p className="text-gray-600 mt-1">Manage your business locations</p>
+  if (!hasAgreed) {
+    return (
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4 py-12">
+        <Toaster position="top-right" />
+        <Card className="max-w-7xl w-full shadow-none border-none border-t-8 border-t-blue-900 bg-white">
+          <CardHeader className="text-center space-y-6 pb-8 border-b border-gray-100">
+            <div className="flex justify-between items-start pt-2 px-4">
+              <div className="bg-blue-50 p-3 rounded-xl">
+                <Building2 className="h-8 w-8 text-blue-900" />
               </div>
-
-              <div className="p-6">
-                {isLoadingLocations ? (
-                  <div className="flex justify-center items-center py-12">
-                    <div className="animate-spin h-8 w-8 border-2 border-blue-600 border-t-transparent rounded-full"></div>
-                  </div>
-                ) : (
-                  <DataTable data={locations || []} onEdit={handleEditLocation} />
-                )}
+              <Link href="/dashboard">
+                <Button variant="ghost" size="sm" className="text-blue-900 hover:bg-blue-50 font-semibold gap-2">
+                  <LayoutDashboard className="h-4 w-4" /> Go to Dashboard
+                </Button>
+              </Link>
+            </div>
+            <div className="px-4">
+              <CardTitle className="text-3xl md:text-4xl font-extrabold text-blue-900 leading-tight">
+                The Impact of ESG adoption on Sustainable Financial Performance in your Organization
+              </CardTitle>
+              <div className="mt-6 flex flex-col md:flex-row justify-center items-center gap-4 text-gray-600">
+                <div className="flex items-center gap-2">
+                  <UserCheck className="h-5 w-5 text-blue-700" />
+                  <span className="font-semibold text-gray-900">Kenneth KOME Echalle</span>
+                </div>
+                <div className="hidden md:block text-gray-300">|</div>
+                <div className="text-sm font-medium">Robert Kennedy College - University of Cumbria</div>
               </div>
             </div>
-          )}
+          </CardHeader>
 
-          {activeTab === 'products' && (
-            <div className="bg-white rounded-lg shadow-sm border">
-              <div className="p-6 border-b">
-                <h2 className="text-xl font-semibold text-gray-900">All Products</h2>
-                <p className="text-gray-600 mt-1">Manage your product inventory</p>
-              </div>
+          <CardContent className="space-y-8 p-8">
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <Microscope className="h-5 w-5" /> 1. Purpose of the Study
+              </h3>
+              <p className="text-gray-700 leading-relaxed pl-7">
+                This study aims to investigate on how Cameroonian Mobile Telecoms can leverage structured ESG adoption to secure long-term financial performance in a growing market.
+              </p>
+            </section>
 
-              <div className="p-6">
-                {isLoadingProducts ? (
-                  <div className="flex justify-center items-center py-12">
-                    <div className="animate-spin h-8 w-8 border-2 border-blue-600 border-t-transparent rounded-full"></div>
-                  </div>
-                ) : (
-                  <ProductsTable data={products || []} onEdit={handleEditProduct} />
-                )}
-              </div>
-            </div>
-          )}
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <BookOpen className="h-5 w-5" /> 2. Procedures
+              </h3>
+              <p className="text-gray-700 leading-relaxed pl-7">
+                If you agree to participate, you are required to complete a questionnaire that follows. This questionnaire will require you to provide the name of your organization, your level in the organization’s hierarchy, your role, and the years of experience you have in ESG related topics. Then you will be required to provide your opinion on how ESG is being practiced by your organization by answering YES/NO question, and providing a few recommendations at the end. You are not required to disclose your personal information in at any time in the survey.
+              </p>
+            </section>
 
-          {activeTab === 'dashboard' && (
-            <div className="space-y-8">
-              {/* Welcome Section */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white shadow-lg">
-                <h2 className="text-3xl font-bold mb-2">Welcome back!</h2>
-                <p className="text-blue-100 text-lg opacity-90 max-w-2xl">
-                  Manage your business locations and products efficiently from one place.
-                  View analytics, track inventory, and grow your presence With ease.
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <AlertCircle className="h-5 w-5" /> 3. Risks and Discomforts
+              </h3>
+              <div className="bg-red-50 p-4 rounded-lg border border-red-100 ml-7">
+                <p className="text-red-900 font-medium italic">
+                  &quot;You might face retaliation risks from your employer if you provide negative feedback on ESG practices and this comes to their notice.&quot;
                 </p>
               </div>
+            </section>
 
-              {/* Navigation Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div
-                  onClick={() => setActiveTab('locations')}
-                  className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer relative overflow-hidden"
-                >
-                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <MapPin className="h-32 w-32" />
-                  </div>
-                  <div className="flex items-start justify-between">
-                    <div className="p-4 bg-blue-100 rounded-xl mb-6 group-hover:bg-blue-600 transition-colors">
-                      <MapPin className="h-8 w-8 text-blue-600 group-hover:text-white" />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Location Management</h3>
-                  <p className="text-gray-600 mb-6">Create, edit, and track your business locations on the map.</p>
-                  <div className="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
-                    <span>Manage Locations</span>
-                    <ArrowRight className="h-5 w-5 ml-2" />
-                  </div>
-                </div>
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <Award className="h-5 w-5" /> 4. Benefits
+              </h3>
+              <p className="text-gray-700 leading-relaxed pl-7">
+                You may benefit from this study if your organization implements actions that bring positive social and financial benefits for employees although this cannot be guaranteed. You should also be proud to contribute to the creation of new knowledge on ESG adoption in Cameroon.
+              </p>
+            </section>
 
-                <div
-                  onClick={() => setActiveTab('products')}
-                  className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer relative overflow-hidden"
-                >
-                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <Package className="h-32 w-32" />
-                  </div>
-                  <div className="flex items-start justify-between">
-                    <div className="p-4 bg-blue-100 rounded-xl mb-6 group-hover:bg-blue-600 transition-colors">
-                      <Package className="h-8 w-8 text-blue-600 group-hover:text-white" />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Product Inventory</h3>
-                  <p className="text-gray-600 mb-6">Keep track of your products, barcodes, and inventory details.</p>
-                  <div className="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
-                    <span>Manage Products</span>
-                    <ArrowRight className="h-5 w-5 ml-2" />
-                  </div>
-                </div>
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <Lock className="h-5 w-5" /> 5. Confidentiality
+              </h3>
+              <p className="text-gray-700 leading-relaxed pl-7">
+                Your personal information will be protected and stored securely.
+              </p>
+            </section>
+
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <ShieldCheck className="h-5 w-5 text-green-600" /> 6. Voluntary Participation
+              </h3>
+              <p className="text-gray-700 leading-relaxed pl-7">
+                Participation is voluntary, and you may withdraw at any time without penalty. You are free to fully disclose, partially disclose or not disclose at all any information you deem to sensitive to be made available to outsiders, without any penalties.
+              </p>
+            </section>
+          </CardContent>
+
+          <CardFooter className="flex flex-col gap-6 bg-gray-50/80 p-8 border-t">
+            <div className="flex items-start space-x-4 p-5 border-2 border-blue-100 rounded-xl bg-white hover:border-blue-300 transition-all cursor-pointer group">
+              <div className="pt-1">
+                <Checkbox
+                  id="terms"
+                  checked={checked}
+                  onCheckedChange={(val) => setChecked(!!val)}
+                  className="h-6 w-6 border-2 border-blue-200 data-[state=checked]:bg-blue-900 data-[state=checked]:border-blue-900"
+                />
               </div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Locations</h3>
-                    <MapPin className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <p className="text-3xl font-bold text-gray-900">{locations?.length || 0}</p>
-                  <div className="mt-2 text-xs text-blue-600 font-medium">Active presence</div>
-                </div>
-
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Products</h3>
-                    <Package className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <p className="text-3xl font-bold text-gray-900">{products?.length || 0}</p>
-                  <div className="mt-2 text-xs text-blue-600 font-medium">Inventory items</div>
-                </div>
-
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Quick Actions</h3>
-                  </div>
-                  <div className="space-y-2 mt-2">
-                    <button
-                      onClick={() => { setIsProductModalOpen(true) }}
-                      className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add New Product
-                    </button>
-                    <button
-                      onClick={() => { setIsLocationModalOpen(true) }}
-                      className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add New Location
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <label
+                htmlFor="terms"
+                className="text-base font-semibold leading-snug cursor-pointer select-none text-gray-800 group-hover:text-blue-900 transition-colors"
+              >
+                I have read the ABOVE information and AGREE to participate in this study under the stated conditions.
+              </label>
             </div>
-          )}
 
-          {activeTab === 'settings' && (
-            <div className="bg-white p-6 rounded-lg shadow-sm border">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Settings</h2>
-              <div className="space-y-4">
-                <div className="p-4 border rounded-lg">
-                  <h3 className="font-medium text-gray-900 mb-2">Application Information</h3>
-                  <p className="text-gray-600">Location Management System</p>
-                </div>
+            <Button
+              className="w-full bg-blue-900 hover:bg-blue-800 py-8 text-xl text-white font-bold shadow-xl transition-all active:scale-[0.98] disabled:bg-blue-600"
+              disabled={!checked}
+              onClick={() => setHasAgreed(true)}
+            >
+              Proceed <ArrowRight className="ml-3 h-6 w-6" />
+            </Button>
+          </CardFooter>
+        </Card>
+      </main>
+    );
+  }
 
-                <div className="p-4 border rounded-lg">
-                  <h3 className="font-medium text-gray-900 mb-2">Preferences</h3>
-                  <p className="text-gray-600">No preferences available</p>
-                </div>
-              </div>
+  return (
+    <main className="min-h-screen bg-white pb-20">
+      <Toaster position="top-right" />
+      <header className="bg-white border-b sticky top-0 z-50">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Building2 className="h-8 w-8 text-blue-900" />
+            <div className="hidden sm:block">
+              <h1 className="text-lg font-bold text-blue-900 leading-none">ESG Survey</h1>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Telecom | Cameroon</p>
             </div>
-          )}
-        </main>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard">
+              <Button variant="outline" size="sm" className="hidden md:flex border-blue-900 text-blue-900 font-semibold gap-2 hover:bg-blue-50">
+                <LayoutDashboard className="h-4 w-4" /> Dashboard
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-5xl mx-auto px-6 pt-10">
+        <SurveyForm />
       </div>
-
-      <CreateLocationModal
-        isOpen={isLocationModalOpen}
-        onClose={handleCloseLocationModal}
-        data={selectedLocation}
-      />
-      <CreateProductModal
-        isOpen={isProductModalOpen}
-        onClose={handleCloseProductModal}
-        data={selectedProduct}
-      />
-    </div>
+    </main>
   );
 }
