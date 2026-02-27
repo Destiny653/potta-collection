@@ -44,7 +44,19 @@ export default function SurveyForm() {
         mode: 'onChange',
     });
 
-    const { handleSubmit, formState: { errors } } = methods;
+    const { handleSubmit, formState: { errors, submitCount } } = methods;
+
+    // Auto-scroll to first error
+    React.useEffect(() => {
+        if (submitCount > 0 && Object.keys(errors).length > 0) {
+            const firstErrorField = Object.keys(errors)[0];
+            const element = document.getElementById(`section-${firstErrorField.toLowerCase().split('.')[0]}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                toast.error('Please check the highlighted fields.');
+            }
+        }
+    }, [submitCount, errors]);
 
     const onSubmit = async (data: SurveySchemaType) => {
         setIsSubmitting(true);
@@ -57,19 +69,23 @@ export default function SurveyForm() {
                 submittedAt: new Date().toISOString(),
             };
 
-            const response = await fetch(process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL!, {
+            const response = await fetch('/api/submit-survey', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
-                mode: 'cors'
             });
 
+            const result = await response.json();
+            if (result.status === 'error') {
+                throw new Error(result.message);
+            }
+
             toast.success('Survey submitted successfully!');
-            setIsSuccess(true);
+            // setIsSuccess(true);
             window.scrollTo(0, 0);
         } catch (error) {
             console.error('Submission error:', error);
-            toast.error('Failed to submit survey. Please try again.');
+            toast.error('Failed to submit survey. Please check your connection and try again.');
         } finally {
             setIsSubmitting(false);
         }
@@ -103,21 +119,21 @@ export default function SurveyForm() {
                 </div>
 
                 <div className="space-y-16">
-                    <section id="section-a" className="space-y-8">
+                    <section id="section-a" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionA ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION A — Respondent Information</h2>
                         </div>
                         <SectionAStep />
                     </section>
 
-                    <section id="section-b" className="space-y-8">
+                    <section id="section-b" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionB ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION B — Awareness & Understanding</h2>
                         </div>
                         <SectionBStep />
                     </section>
 
-                    <section id="section-c" className="space-y-12">
+                    <section id="section-c" className={`space-y-12 p-6 rounded-xl transition-colors ${errors.sectionC ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION C — Current ESG Practices and Maturity Levels</h2>
                         </div>
@@ -137,21 +153,21 @@ export default function SurveyForm() {
                         </div>
                     </section>
 
-                    <section id="section-d" className="space-y-8">
+                    <section id="section-d" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionD ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION D — Value & Impact</h2>
                         </div>
                         <SectionDStep />
                     </section>
 
-                    <section id="section-e" className="space-y-8">
+                    <section id="section-e" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionE ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION E — Barriers</h2>
                         </div>
                         <SectionEStep />
                     </section>
 
-                    <section id="section-f" className="space-y-8">
+                    <section id="section-f" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionF ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION F — Internal Readiness</h2>
                         </div>
@@ -350,6 +366,7 @@ function SectionBStep() {
                         </div>
                     ))}
                 </div>
+                {errors.sectionB?.sustainabilityPracticeLevel && <p className="text-red-500 text-sm mt-1">{errors.sectionB.sustainabilityPracticeLevel.message}</p>}
             </div>
 
             <div className="space-y-4">
@@ -370,6 +387,7 @@ function SectionBStep() {
                         </div>
                     ))}
                 </div>
+                {errors.sectionB?.esgReporting && <p className="text-red-500 text-sm mt-1">{errors.sectionB.esgReporting.message}</p>}
             </div>
         </div>
     );
@@ -511,7 +529,7 @@ function SectionDStep() {
                         </div>
                     ))}
                 </div>
-                {errors.sectionD?.financialBenefits && <p className="text-red-500 text-sm mt-1">{errors.sectionD.financialBenefits.message}</p>}
+                {errors.sectionD?.financialBenefits && <p className="text-red-500 text-sm mt-2 font-medium">{errors.sectionD.financialBenefits.message}</p>}
             </div>
 
             <div className="space-y-4">
@@ -532,6 +550,7 @@ function SectionDStep() {
                         </div>
                     ))}
                 </div>
+                {errors.sectionD?.profitabilityAgreement && <p className="text-red-500 text-sm mt-1">{errors.sectionD.profitabilityAgreement.message}</p>}
             </div>
 
             <div className="space-y-4">
@@ -552,6 +571,7 @@ function SectionDStep() {
                         </div>
                     ))}
                 </div>
+                {errors.sectionD?.measurableLink && <p className="text-red-500 text-sm mt-1">{errors.sectionD.measurableLink.message}</p>}
             </div>
         </div>
     );
@@ -601,7 +621,7 @@ function SectionEStep() {
                         </div>
                     ))}
                 </div>
-                {errors.sectionE?.strategicChallenges && <p className="text-red-500 text-sm mt-1">{errors.sectionE.strategicChallenges.message}</p>}
+                {errors.sectionE?.strategicChallenges && <p className="text-red-500 text-sm mt-2 font-medium">{errors.sectionE.strategicChallenges.message}</p>}
             </div>
 
             <div className="space-y-6">
@@ -692,6 +712,7 @@ function SectionFStep() {
                         </div>
                     ))}
                 </div>
+                {errors.sectionF?.dedicatedESGTeam && <p className="text-red-500 text-sm mt-1">{errors.sectionF.dedicatedESGTeam.message}</p>}
             </div>
 
             <div className="space-y-4">
@@ -710,7 +731,7 @@ function SectionFStep() {
                         </div>
                     ))}
                 </div>
-                {errors.sectionF?.trackedIndicators && <p className="text-red-500 text-sm mt-1">{errors.sectionF.trackedIndicators.message}</p>}
+                {errors.sectionF?.trackedIndicators && <p className="text-red-500 text-sm mt-2 font-medium">{errors.sectionF.trackedIndicators.message}</p>}
             </div>
         </div>
     );
