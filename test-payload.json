@@ -1,0 +1,64 @@
+{
+  "rawData": {
+    "sectionA": {
+      "role": "Middle Manager",
+      "department": "IT",
+      "telecomExperience": "3–5 years",
+      "company": "MTN Cameroon"
+    },
+    "sectionB": {
+      "familiarityWithESG": "Very familiar",
+      "sustainabilityPracticeLevel": "A mix of CSR and early ESG elements",
+      "esgReporting": "Yes"
+    },
+    "sectionC": {
+      "environmental": {
+        "energyEfficiency": "Slightly",
+        "dataCentreEnergyManagement": "Moderate",
+        "wasteManagement": "Moderate",
+        "regulatoryCompliance": "Moderate",
+        "environmentalTracking": "Moderate"
+      },
+      "social": {
+        "employeeWellbeing": "Slightly",
+        "diversityInclusion": "Slightly",
+        "communityInvestment": "Slightly",
+        "customerSatisfaction": "Slightly",
+        "dataPrivacyProtection": "Slightly",
+        "trainingDevelopment": "Slightly"
+      },
+      "governance": {
+        "boardOversight": "Slightly",
+        "ethicalConduct": "Slightly",
+        "riskManagement": "Slightly",
+        "transparencyReporting": "Slightly",
+        "stakeholderEngagement": "Slightly"
+      }
+    },
+    "sectionD": {
+      "esgImportance": "Very important",
+      "financialBenefits": ["Reduced operational costs"],
+      "profitabilityAgreement": "Agree",
+      "measurableLink": "Yes"
+    },
+    "sectionE": {
+      "strategicChallenges": ["Limited financial resources"],
+      "barrierSignificance": {
+        "financialConstraints": "Very significant",
+        "lackOfSkills": "Slightly significant",
+        "limitedData": "Slightly significant",
+        "resistanceToChange": "Slightly significant",
+        "lackOfGuidance": "Slightly significant"
+      }
+    },
+    "sectionF": {
+      "readiness": "Moderately prepared",
+      "dedicatedESGTeam": "Yes",
+      "trackedIndicators": ["Energy consumption"]
+    },
+    "sectionG": {
+      "recommendations": "Test recommendation"
+    }
+  },
+  "submittedAt": "2023-11-20T10:00:00.000Z"
+}

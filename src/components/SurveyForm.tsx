@@ -81,7 +81,7 @@ export default function SurveyForm() {
             }
 
             toast.success('Survey submitted successfully!');
-            // setIsSuccess(true);
+            setIsSuccess(true);
             window.scrollTo(0, 0);
         } catch (error) {
             console.error('Submission error:', error);
