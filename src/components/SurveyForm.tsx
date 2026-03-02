@@ -849,9 +849,9 @@ function FeedbackForm({ onComplete }: { onComplete: () => void }) {
                 <CardContent className="px-4">
                     <form id="feedback-form" onSubmit={submitFeedback} className="space-y-8">
                         <div className="space-y-4">
-                            <Label className="text-base font-semibold">1. Rate the overall clarity of the questions:</Label>
+                            <Label className="text-base font-semibold">1. Rate the overall clarity of the questions: very clear, clear, some ambiguity, not clear at all</Label>
                             <div className="flex flex-wrap gap-3">
-                                {['Very clear', 'Clear', 'Some ambiguity', 'Not clear at all'].map((opt) => (
+                                {['very clear', 'clear', 'some ambiguity', 'not clear at all'].map((opt) => (
                                     <Button
                                         key={opt}
                                         type="button"

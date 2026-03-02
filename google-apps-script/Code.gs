@@ -53,7 +53,7 @@ function getOrCreateSheet() {
       'Profitability Agreement', 'Measurable Link', 'Strategic Challenges',
       'Barrier: Financial', 'Barrier: Skills', 'Barrier: Data',
       'Barrier: Resistance', 'Barrier: Guidance', 'Readiness',
-      'Dedicated ESG Team', 'Tracked Indicators', 'Recommendations'
+      'Dedicated ESG Team', 'Tracked Indicators', 'Recommendations', 'IP Address'
     ];
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight('bold');
     sheet.setFrozenRows(1);
@@ -141,7 +141,8 @@ function doPost(e) {
         r.sectionF.readiness,
         r.sectionF.dedicatedESGTeam,
         (r.sectionF.trackedIndicators || []).join(', '),
-        r.sectionG.recommendations || ''
+        r.sectionG.recommendations || '',
+        data.ip || ''
       ];
       sheet.appendRow(row);
     }
