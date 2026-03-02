@@ -109,7 +109,7 @@ export default function SurveyForm({ onBack }: { onBack: () => void }) {
     if (isSuccess) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] p-12 text-center space-y-6 bg-white rounded-xl shadow-sm border mt-10">
-                <div className="bg-green-100 p-6 rounded-full">
+                <div className="bg-green-100 p-1 rounded-full">
                     <CheckCircle2 className="h-16 w-16 text-green-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900">Thank You!</h2>
@@ -140,21 +140,21 @@ export default function SurveyForm({ onBack }: { onBack: () => void }) {
                 </div>
 
                 <div className="space-y-16">
-                    <section id="section-a" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionA ? 'bg-red-50 border-2 border-red-100' : ''}`}>
+                    <section id="section-a" className={`space-y-8 p-1 rounded-xl transition-colors ${errors.sectionA ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-xl sm:text-2xl font-bold text-blue-900">SECTION A — Respondent Information</h2>
                         </div>
                         <SectionAStep />
                     </section>
 
-                    <section id="section-b" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionB ? 'bg-red-50 border-2 border-red-100' : ''}`}>
+                    <section id="section-b" className={`space-y-8 p-1 rounded-xl transition-colors ${errors.sectionB ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-xl sm:text-2xl font-bold text-blue-900">SECTION B — Awareness & Understanding</h2>
                         </div>
                         <SectionBStep />
                     </section>
 
-                    <section id="section-c" className={`space-y-12 p-6 rounded-xl transition-colors ${errors.sectionC ? 'bg-red-50 border-2 border-red-100' : ''}`}>
+                    <section id="section-c" className={`space-y-12 p-1 rounded-xl transition-colors ${errors.sectionC ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-xl sm:text-2xl font-bold text-blue-900">SECTION C — Current ESG Practices</h2>
                         </div>
@@ -174,21 +174,21 @@ export default function SurveyForm({ onBack }: { onBack: () => void }) {
                         </div>
                     </section>
 
-                    <section id="section-d" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionD ? 'bg-red-50 border-2 border-red-100' : ''}`}>
+                    <section id="section-d" className={`space-y-8 p-1 rounded-xl transition-colors ${errors.sectionD ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION D — Value & Impact</h2>
                         </div>
                         <SectionDStep />
                     </section>
 
-                    <section id="section-e" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionE ? 'bg-red-50 border-2 border-red-100' : ''}`}>
+                    <section id="section-e" className={`space-y-8 p-1 rounded-xl transition-colors ${errors.sectionE ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION E — Barriers</h2>
                         </div>
                         <SectionEStep />
                     </section>
 
-                    <section id="section-f" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionF ? 'bg-red-50 border-2 border-red-100' : ''}`}>
+                    <section id="section-f" className={`space-y-8 p-1 rounded-xl transition-colors ${errors.sectionF ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
                             <h2 className="text-2xl font-bold text-blue-900">SECTION F — Internal Readiness</h2>
                         </div>
@@ -805,13 +805,16 @@ function FeedbackForm({ onComplete }: { onComplete: () => void }) {
                 }),
             });
 
-            if (!response.ok) throw new Error('Failed to submit feedback');
+            const result = await response.json();
+            if (!response.ok || result.status === 'error') {
+                throw new Error(result.message || 'Failed to submit feedback');
+            }
 
             toast.success('Thank you for your feedback!');
             onComplete();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Feedback error:', error);
-            toast.error('Failed to submit feedback.');
+            toast.error(error.message || 'Failed to submit feedback.');
         } finally {
             setIsSubmitting(false);
         }

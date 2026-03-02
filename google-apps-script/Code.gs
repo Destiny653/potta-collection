@@ -17,62 +17,43 @@
 // https://docs.google.com/spreadsheets/d/THIS_IS_THE_ID/edit
 const SHEET_ID = '1m1qCIj9lU1bd1V9epDTu0srZWyBu5Qspw72iAa1tHUI';
 
-function getOrCreateSheet() {
-  let ss;
+function getSpreadsheet() {
   if (SHEET_ID) {
-    ss = SpreadsheetApp.openById(SHEET_ID);
-  } else {
-    // Auto-create a sheet if no ID is provided
-    const files = DriveApp.getFilesByName('ESG Survey Responses');
-    if (files.hasNext()) {
-      ss = SpreadsheetApp.open(files.next());
-    } else {
-      ss = SpreadsheetApp.create('ESG Survey Responses');
+    try {
+      return SpreadsheetApp.openById(SHEET_ID);
+    } catch (e) {
+      // Fallback if ID fails
     }
   }
   
+  // Search for the sheet by name or create a new one
+  const files = DriveApp.getFilesByName('ESG Survey Responses');
+  if (files.hasNext()) {
+    return SpreadsheetApp.open(files.next());
+  }
+  
+  // Create if none found
+  return SpreadsheetApp.create('ESG Survey Responses');
+}
+
+function getOrCreateSheet() {
+  const ss = getSpreadsheet();
   let sheet = ss.getSheetByName('Responses');
   if (!sheet) {
     sheet = ss.insertSheet('Responses');
     const headers = [
-      'Timestamp',
-      'Company',
-      'Role',
-      'Department',
-      'Experience',
-      'ESG Familiarity',
-      'Sustainability Practice Level',
-      'ESG Reporting',
-      'Env: Energy Efficiency',
-      'Env: Data Centre',
-      'Env: Waste Management',
-      'Env: Regulatory Compliance',
-      'Env: Tracking',
-      'Soc: Employee Wellbeing',
-      'Soc: Diversity',
-      'Soc: Community',
-      'Soc: Customer Satisfaction',
-      'Soc: Data Privacy',
-      'Soc: Training',
-      'Gov: Board Oversight',
-      'Gov: Ethical Conduct',
-      'Gov: Risk Management',
-      'Gov: Transparency',
-      'Gov: Stakeholder Engagement',
-      'ESG Importance',
-      'Financial Benefits',
-      'Profitability Agreement',
-      'Measurable Link',
-      'Strategic Challenges',
-      'Barrier: Financial',
-      'Barrier: Skills',
-      'Barrier: Data',
-      'Barrier: Resistance',
-      'Barrier: Guidance',
-      'Readiness',
-      'Dedicated ESG Team',
-      'Tracked Indicators',
-      'Recommendations'
+      'Timestamp', 'Company', 'Role', 'Department', 'Experience',
+      'ESG Familiarity', 'Sustainability Practice Level', 'ESG Reporting',
+      'Env: Energy Efficiency', 'Env: Data Centre', 'Env: Waste Management',
+      'Env: Regulatory Compliance', 'Env: Tracking', 'Soc: Employee Wellbeing',
+      'Soc: Diversity', 'Soc: Community', 'Soc: Customer Satisfaction',
+      'Soc: Data Privacy', 'Soc: Training', 'Gov: Board Oversight',
+      'Gov: Ethical Conduct', 'Gov: Risk Management', 'Gov: Transparency',
+      'Gov: Stakeholder Engagement', 'ESG Importance', 'Financial Benefits',
+      'Profitability Agreement', 'Measurable Link', 'Strategic Challenges',
+      'Barrier: Financial', 'Barrier: Skills', 'Barrier: Data',
+      'Barrier: Resistance', 'Barrier: Guidance', 'Readiness',
+      'Dedicated ESG Team', 'Tracked Indicators', 'Recommendations'
     ];
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight('bold');
     sheet.setFrozenRows(1);
@@ -81,7 +62,7 @@ function getOrCreateSheet() {
 }
 
 function getOrCreateFeedbackSheet() {
-  let ss = SpreadsheetApp.openById(SHEET_ID);
+  const ss = getSpreadsheet();
   let sheet = ss.getSheetByName('Feedback');
   if (!sheet) {
     sheet = ss.insertSheet('Feedback');
@@ -164,7 +145,7 @@ function doPost(e) {
 
     return ContentService.createTextOutput(JSON.stringify({ 
       status: 'success', 
-      message: 'Response saved to Google sheet'
+      message: 'Response saved successfully'
     })).setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {

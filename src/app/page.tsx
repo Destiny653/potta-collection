@@ -21,7 +21,7 @@ export default function SurveyPage() {
 
   if (!hasAgreed) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4 py-12">
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-0 py-0">
         <Toaster position="top-right" />
         <Card className="max-w-7xl w-full shadow-none border-none border-t-8 border-t-blue-900 bg-white">
           <CardHeader className="text-center space-y-6 pb-8 border-b border-gray-100">
@@ -108,7 +108,7 @@ export default function SurveyPage() {
             </section>
           </CardContent>
 
-          <CardFooter className="flex flex-col gap-6 bg-gray-50/80 p-8 border-t">
+          <CardFooter className="flex flex-col gap-6 bg-gray-50/80 p-2 border-t">
             <div className="flex items-start space-x-4 p-5 border-2 border-blue-100 rounded-xl bg-white hover:border-blue-300 transition-all cursor-pointer group">
               <div className="pt-1">
                 <Checkbox
