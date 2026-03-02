@@ -80,57 +80,87 @@ function getOrCreateSheet() {
   return sheet;
 }
 
+function getOrCreateFeedbackSheet() {
+  let ss = SpreadsheetApp.openById(SHEET_ID);
+  let sheet = ss.getSheetByName('Feedback');
+  if (!sheet) {
+    sheet = ss.insertSheet('Feedback');
+    const headers = [
+      'Timestamp',
+      'Difficulty',
+      'Length',
+      'Experience Rating',
+      'Comments'
+    ];
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+    const type = data.type || 'survey'; // Default to survey for backward compatibility
     const r = data.rawData;
-    const sheet = getOrCreateSheet();
+    
+    if (type === 'feedback') {
+      const sheet = getOrCreateFeedbackSheet();
+      const row = [
+        new Date().toLocaleString(),
+        r.difficulty,
+        r.length,
+        r.experience,
+        r.comments || ''
+      ];
+      sheet.appendRow(row);
+    } else {
+      const sheet = getOrCreateSheet();
+      const role = r.sectionA.role === 'Other (please specify)' ? r.sectionA.roleOther : r.sectionA.role;
+      const dept = r.sectionA.department === 'Other (please specify)' ? r.sectionA.departmentOther : r.sectionA.department;
 
-    const role = r.sectionA.role === 'Other (please specify)' ? r.sectionA.roleOther : r.sectionA.role;
-    const dept = r.sectionA.department === 'Other (please specify)' ? r.sectionA.departmentOther : r.sectionA.department;
-
-    const row = [
-      new Date().toLocaleString(),
-      r.sectionA.company,
-      role,
-      dept,
-      r.sectionA.telecomExperience,
-      r.sectionB.familiarityWithESG,
-      r.sectionB.sustainabilityPracticeLevel,
-      r.sectionB.esgReporting,
-      r.sectionC.environmental.energyEfficiency,
-      r.sectionC.environmental.dataCentreEnergyManagement,
-      r.sectionC.environmental.wasteManagement,
-      r.sectionC.environmental.regulatoryCompliance,
-      r.sectionC.environmental.environmentalTracking,
-      r.sectionC.social.employeeWellbeing,
-      r.sectionC.social.diversityInclusion,
-      r.sectionC.social.communityInvestment,
-      r.sectionC.social.customerSatisfaction,
-      r.sectionC.social.dataPrivacyProtection,
-      r.sectionC.social.trainingDevelopment,
-      r.sectionC.governance.boardOversight,
-      r.sectionC.governance.ethicalConduct,
-      r.sectionC.governance.riskManagement,
-      r.sectionC.governance.transparencyReporting,
-      r.sectionC.governance.stakeholderEngagement,
-      r.sectionD.esgImportance,
-      (r.sectionD.financialBenefits || []).join(', '),
-      r.sectionD.profitabilityAgreement,
-      r.sectionD.measurableLink,
-      (r.sectionE.strategicChallenges || []).join(', '),
-      r.sectionE.barrierSignificance.financialConstraints,
-      r.sectionE.barrierSignificance.lackOfSkills,
-      r.sectionE.barrierSignificance.limitedData,
-      r.sectionE.barrierSignificance.resistanceToChange,
-      r.sectionE.barrierSignificance.lackOfGuidance,
-      r.sectionF.readiness,
-      r.sectionF.dedicatedESGTeam,
-      (r.sectionF.trackedIndicators || []).join(', '),
-      r.sectionG.recommendations || ''
-    ];
-
-    sheet.appendRow(row);
+      const row = [
+        new Date().toLocaleString(),
+        r.sectionA.company,
+        role,
+        dept,
+        r.sectionA.telecomExperience,
+        r.sectionB.familiarityWithESG,
+        r.sectionB.sustainabilityPracticeLevel,
+        r.sectionB.esgReporting,
+        r.sectionC.environmental.energyEfficiency,
+        r.sectionC.environmental.dataCentreEnergyManagement,
+        r.sectionC.environmental.wasteManagement,
+        r.sectionC.environmental.regulatoryCompliance,
+        r.sectionC.environmental.environmentalTracking,
+        r.sectionC.social.employeeWellbeing,
+        r.sectionC.social.diversityInclusion,
+        r.sectionC.social.communityInvestment,
+        r.sectionC.social.customerSatisfaction,
+        r.sectionC.social.dataPrivacyProtection,
+        r.sectionC.social.trainingDevelopment,
+        r.sectionC.governance.boardOversight,
+        r.sectionC.governance.ethicalConduct,
+        r.sectionC.governance.riskManagement,
+        r.sectionC.governance.transparencyReporting,
+        r.sectionC.governance.stakeholderEngagement,
+        r.sectionD.esgImportance,
+        (r.sectionD.financialBenefits || []).join(', '),
+        r.sectionD.profitabilityAgreement,
+        r.sectionD.measurableLink,
+        (r.sectionE.strategicChallenges || []).join(', '),
+        r.sectionE.barrierSignificance.financialConstraints,
+        r.sectionE.barrierSignificance.lackOfSkills,
+        r.sectionE.barrierSignificance.limitedData,
+        r.sectionE.barrierSignificance.resistanceToChange,
+        r.sectionE.barrierSignificance.lackOfGuidance,
+        r.sectionF.readiness,
+        r.sectionF.dedicatedESGTeam,
+        (r.sectionF.trackedIndicators || []).join(', '),
+        r.sectionG.recommendations || ''
+      ];
+      sheet.appendRow(row);
+    }
 
     return ContentService.createTextOutput(JSON.stringify({ 
       status: 'success', 

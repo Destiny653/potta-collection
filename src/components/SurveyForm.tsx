@@ -34,9 +34,10 @@ const SECTIONS = [
     { id: 'G', title: 'Open Ended' },
 ];
 
-export default function SurveyForm() {
+export default function SurveyForm({ onBack }: { onBack: () => void }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [showFeedback, setShowFeedback] = useState(false);
 
     const methods = useForm<SurveySchemaType>({
         resolver: zodResolver(surveySchema),
@@ -58,12 +59,26 @@ export default function SurveyForm() {
         }
     }, [submitCount, errors]);
 
+    // Prevent data loss on refresh
+    React.useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (!isSuccess) {
+                e.preventDefault();
+                e.returnValue = 'Data you have entered may not be saved.';
+                return e.returnValue;
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isSuccess]);
+
     const onSubmit = async (data: SurveySchemaType) => {
         setIsSubmitting(true);
         try {
             console.log('Form data:', data);
             const formattedHtml = generateFormattedOutput(data);
             const payload = {
+                type: 'survey',
                 rawData: data,
                 formattedHtml,
                 submittedAt: new Date().toISOString(),
@@ -81,7 +96,7 @@ export default function SurveyForm() {
             }
 
             toast.success('Survey submitted successfully!');
-            setIsSuccess(true);
+            setShowFeedback(true);
             window.scrollTo(0, 0);
         } catch (error) {
             console.error('Submission error:', error);
@@ -108,12 +123,18 @@ export default function SurveyForm() {
         );
     }
 
+    if (showFeedback) {
+        return (
+            <FeedbackForm onComplete={() => setIsSuccess(true)} />
+        );
+    }
+
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto py-12 px-4 space-y-12">
-                <div className="text-center space-y-4 mb-12">
-                    <h1 className="text-4xl font-extrabold text-blue-900 tracking-tight">ESG Telecom Survey</h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto py-12 px-2 space-y-12">
+                <div className="text-center space-y-4 mb-8 sm:mb-12">
+                    <h1 className="text-2xl sm:text-4xl font-extrabold text-blue-900 tracking-tight px-2">ESG Telecom Survey</h1>
+                    <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
                         Evaluating Environmental, Social, and Governance practices in the Cameroon telecommunications sector.
                     </p>
                 </div>
@@ -121,21 +142,21 @@ export default function SurveyForm() {
                 <div className="space-y-16">
                     <section id="section-a" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionA ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
-                            <h2 className="text-2xl font-bold text-blue-900">SECTION A — Respondent Information</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-blue-900">SECTION A — Respondent Information</h2>
                         </div>
                         <SectionAStep />
                     </section>
 
                     <section id="section-b" className={`space-y-8 p-6 rounded-xl transition-colors ${errors.sectionB ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
-                            <h2 className="text-2xl font-bold text-blue-900">SECTION B — Awareness & Understanding</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-blue-900">SECTION B — Awareness & Understanding</h2>
                         </div>
                         <SectionBStep />
                     </section>
 
                     <section id="section-c" className={`space-y-12 p-6 rounded-xl transition-colors ${errors.sectionC ? 'bg-red-50 border-2 border-red-100' : ''}`}>
                         <div className="border-b-2 border-blue-900 pb-2">
-                            <h2 className="text-2xl font-bold text-blue-900">SECTION C — Current ESG Practices and Maturity Levels</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-blue-900">SECTION C — Current ESG Practices</h2>
                         </div>
                         <div className="space-y-10">
                             <div className="space-y-4">
@@ -182,13 +203,21 @@ export default function SurveyForm() {
                     </section>
                 </div>
 
-                <div className="pt-12 border-t flex justify-center">
+                <div className="pt-12 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onBack}
+                        className="w-full sm:w-auto border-blue-900 text-blue-900 hover:bg-blue-50 font-bold h-14 px-8 text-lg rounded-lg transition-all"
+                    >
+                        <ChevronLeft className="h-5 w-5 mr-2" /> Back to Terms
+                    </Button>
                     <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-blue-900 hover:bg-blue-800 text-white text-lg px-12 py-6 h-auto rounded-lg shadow-lg flex items-center gap-3 transition-all transform hover:scale-105"
+                        className="w-full sm:w-auto bg-blue-900 hover:bg-blue-800 text-white font-bold h-14 px-12 text-lg rounded-lg shadow-lg flex items-center justify-center gap-3 transition-all transform hover:scale-105"
                     >
-                        {isSubmitting ? 'Submitting Survey...' : <>Submit Final Response <Send className="h-5 w-5" /></>}
+                        {isSubmitting ? 'Submitting...' : <>Submit Final Response <Send className="h-5 w-5" /></>}
                     </Button>
                 </div>
 
@@ -213,7 +242,7 @@ function SectionAStep() {
     return (
         <div className="space-y-10">
             <div className="space-y-4">
-                <p className="text-lg font-medium text-gray-700">1. What is your role in the company?</p>
+                <p className="text-base sm:text-lg font-medium text-gray-700">1. What is your role in the company?</p>
                 <div className="space-y-3 pl-2">
                     {['Senior Manager / Executive', 'Middle Manager', 'Non Management Staff', 'Other (please specify)'].map((role) => (
                         <div key={role} className="flex items-start space-x-3 group">
@@ -749,6 +778,131 @@ function SectionGStep() {
                     {...register('sectionG.recommendations')}
                 />
             </div>
+        </div>
+    );
+}
+
+function FeedbackForm({ onComplete }: { onComplete: () => void }) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState({
+        difficulty: '',
+        length: '',
+        experience: 5,
+        comments: ''
+    });
+
+    const submitFeedback = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const response = await fetch('/api/submit-survey', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'feedback',
+                    rawData: formData,
+                    submittedAt: new Date().toISOString()
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to submit feedback');
+
+            toast.success('Thank you for your feedback!');
+            onComplete();
+        } catch (error) {
+            console.error('Feedback error:', error);
+            toast.error('Failed to submit feedback.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    return (
+        <div className="max-w-2xl mx-auto py-12 px-2">
+            <Card className="shadow-lg border-t-4 border-blue-900">
+                <CardHeader className="text-center px-4">
+                    <CardTitle className="text-2xl font-bold text-blue-900">Final Step: Your Feedback</CardTitle>
+                    <CardDescription>We value your thoughts on this survey experience.</CardDescription>
+                </CardHeader>
+                <CardContent className="px-4">
+                    <form id="feedback-form" onSubmit={submitFeedback} className="space-y-8">
+                        <div className="space-y-4">
+                            <Label className="text-base font-semibold">1. How difficult was it to answer the questions?</Label>
+                            <div className="flex flex-wrap gap-3">
+                                {['Easy', 'Moderate', 'Difficult'].map((opt) => (
+                                    <Button
+                                        key={opt}
+                                        type="button"
+                                        variant={formData.difficulty === opt ? 'default' : 'outline'}
+                                        className={formData.difficulty === opt ? 'bg-blue-900' : ''}
+                                        onClick={() => setFormData({ ...formData, difficulty: opt })}
+                                    >
+                                        {opt}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label className="text-base font-semibold">2. Was the survey too lengthy?</Label>
+                            <div className="flex flex-wrap gap-3">
+                                {['Too short', 'Just right', 'Too long'].map((opt) => (
+                                    <Button
+                                        key={opt}
+                                        type="button"
+                                        variant={formData.length === opt ? 'default' : 'outline'}
+                                        className={formData.length === opt ? 'bg-blue-900' : ''}
+                                        onClick={() => setFormData({ ...formData, length: opt })}
+                                    >
+                                        {opt}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label className="text-base font-semibold">3. How would you rate your overall experience? (1-5)</Label>
+                            <div className="flex gap-2">
+                                {[1, 2, 3, 4, 5].map((num) => (
+                                    <button
+                                        key={num}
+                                        type="button"
+                                        className={`w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center font-bold ${formData.experience === num
+                                            ? 'bg-blue-900 border-blue-900 text-white'
+                                            : 'border-gray-200 text-gray-400 hover:border-blue-900'
+                                            }`}
+                                        onClick={() => setFormData({ ...formData, experience: num })}
+                                    >
+                                        {num}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label className="text-base font-semibold" htmlFor="feedback-comments">4. Any additional comments or suggestions?</Label>
+                            <Textarea
+                                id="feedback-comments"
+                                value={formData.comments}
+                                onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
+                                placeholder="Tell us more..."
+                                className="min-h-[100px]"
+                            />
+                        </div>
+                    </form>
+                </CardContent>
+                <CardFooter className="flex flex-col gap-3 px-4 pb-8">
+                    <Button
+                        form="feedback-form"
+                        type="submit"
+                        disabled={isSubmitting || !formData.difficulty || !formData.length}
+                        className="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold h-12"
+                    >
+                        {isSubmitting ? 'Submitting...' : 'Complete & Finish'}
+                    </Button>
+                    <p className="text-xs text-center text-gray-500">Your feedback helps us improve our research methodology.</p>
+                </CardFooter>
+            </Card>
         </div>
     );
 }

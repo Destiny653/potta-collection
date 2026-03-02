@@ -13,6 +13,12 @@ export default function SurveyPage() {
   const [hasAgreed, setHasAgreed] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  React.useEffect(() => {
+    if (hasAgreed) {
+      window.scrollTo(0, 0);
+    }
+  }, [hasAgreed]);
+
   if (!hasAgreed) {
     return (
       <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4 py-12">
@@ -30,7 +36,7 @@ export default function SurveyPage() {
               </Link>
             </div>
             <div className="px-4">
-              <CardTitle className="text-3xl md:text-4xl font-extrabold text-blue-900 leading-tight">
+              <CardTitle className="text-2xl md:text-4xl font-extrabold text-blue-900 leading-tight">
                 The Impact of ESG adoption on Sustainable Financial Performance in your Organization
               </CardTitle>
               <div className="mt-6 flex flex-col md:flex-row justify-center items-center gap-4 text-gray-600">
@@ -47,7 +53,7 @@ export default function SurveyPage() {
           <CardContent className="space-y-8 p-8">
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <Microscope className="h-5 w-5" /> 1. Purpose of the Study
+                <Microscope className="h-5 w-5" /> - Purpose of the Study
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
                 This study aims to investigate on how Cameroonian Mobile Telecoms can leverage structured ESG adoption to secure long-term financial performance in a growing market.
@@ -56,7 +62,7 @@ export default function SurveyPage() {
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <BookOpen className="h-5 w-5" /> 2. Procedures
+                <BookOpen className="h-5 w-5" /> - Procedures
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
                 If you agree to participate, you are required to complete a questionnaire that follows. This questionnaire will require you to provide the name of your organization, your level in the organization’s hierarchy, your role, and the years of experience you have in ESG related topics. Then you will be required to provide your opinion on how ESG is being practiced by your organization by answering YES/NO question, and providing a few recommendations at the end. You are not required to disclose your personal information in at any time in the survey.
@@ -65,7 +71,7 @@ export default function SurveyPage() {
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <AlertCircle className="h-5 w-5" /> 3. Risks and Discomforts
+                <AlertCircle className="h-5 w-5" /> - Risks and Discomforts
               </h3>
               <div className="bg-red-50 p-4 rounded-lg border border-red-100 ml-7">
                 <p className="text-red-900 font-medium italic">
@@ -76,7 +82,7 @@ export default function SurveyPage() {
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <Award className="h-5 w-5" /> 4. Benefits
+                <Award className="h-5 w-5" /> - Benefits
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
                 You may benefit from this study if your organization implements actions that bring positive social and financial benefits for employees although this cannot be guaranteed. You should also be proud to contribute to the creation of new knowledge on ESG adoption in Cameroon.
@@ -85,7 +91,7 @@ export default function SurveyPage() {
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <Lock className="h-5 w-5" /> 5. Confidentiality
+                <Lock className="h-5 w-5" /> - Confidentiality
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
                 Your personal information will be protected and stored securely.
@@ -94,7 +100,7 @@ export default function SurveyPage() {
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <ShieldCheck className="h-5 w-5 text-green-600" /> 6. Voluntary Participation
+                <ShieldCheck className="h-5 w-5 text-green-600" /> - Voluntary Participation
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
                 Participation is voluntary, and you may withdraw at any time without penalty. You are free to fully disclose, partially disclose or not disclose at all any information you deem to sensitive to be made available to outsiders, without any penalties.
@@ -120,13 +126,15 @@ export default function SurveyPage() {
               </label>
             </div>
 
-            <Button
-              className="w-full bg-blue-900 hover:bg-blue-800 py-8 text-xl text-white font-bold shadow-xl transition-all active:scale-[0.98] disabled:bg-blue-600"
-              disabled={!checked}
-              onClick={() => setHasAgreed(true)}
-            >
-              Proceed <ArrowRight className="ml-3 h-6 w-6" />
-            </Button>
+            <div className="w-full flex justify-center">
+              <Button
+                className="w-full sm:w-auto bg-blue-900 hover:bg-blue-800 py-6 sm:py-8 px-12 sm:px-20 text-lg sm:text-xl text-white font-bold shadow-xl transition-all active:scale-[0.98] disabled:bg-blue-600 rounded-xl flex items-center justify-center h-auto"
+                disabled={!checked}
+                onClick={() => setHasAgreed(true)}
+              >
+                Proceed to Survey <ArrowRight className="ml-3 h-6 w-6" />
+              </Button>
+            </div>
           </CardFooter>
         </Card>
       </main>
@@ -155,8 +163,8 @@ export default function SurveyPage() {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-6 pt-10">
-        <SurveyForm />
+      <div className="max-w-5xl mx-auto px-2 pt-10">
+        <SurveyForm onBack={() => setHasAgreed(false)} />
       </div>
     </main>
   );
