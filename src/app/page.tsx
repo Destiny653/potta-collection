@@ -73,11 +73,9 @@ export default function SurveyPage() {
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
                 <AlertCircle className="h-5 w-5" /> - Risks and Discomforts
               </h3>
-              <div className="bg-red-50 p-4 rounded-lg border border-red-100 ml-7">
-                <p className="text-red-900 font-medium italic">
-                  &quot;You might face retaliation risks from your employer if you provide negative feedback on ESG practices and this comes to their notice.&quot;
+                <p className="text-gray-700 leading-relaxed pl-7">
+                 You might face retaliation risks from your employer if you provide negative feedback on ESG practices and this comes to their notice.
                 </p>
-              </div>
             </section>
 
             <section className="space-y-3">
