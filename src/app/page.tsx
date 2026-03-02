@@ -92,7 +92,7 @@ export default function SurveyPage() {
                 <Lock className="h-5 w-5" /> - Confidentiality
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
-                Your personal information will be protected and stored securely.
+                Your information will be protected and stored securely.
               </p>
             </section>
 
@@ -151,13 +151,13 @@ export default function SurveyPage() {
               <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Telecom | Cameroon</p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <Link href="/dashboard">
               <Button variant="outline" size="sm" className="hidden md:flex border-blue-900 text-blue-900 font-semibold gap-2 hover:bg-blue-50">
                 <LayoutDashboard className="h-4 w-4" /> Dashboard
               </Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </header>
 

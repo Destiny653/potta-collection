@@ -4,6 +4,15 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
+        // Get IP address
+        const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+            request.headers.get('x-real-ip') ||
+            'unknown';
+
+        // Add IP to body
+        body.ip = ip;
+
+
         const googleScriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
         if (!googleScriptUrl) {
             console.error('❌ NEXT_PUBLIC_GOOGLE_SCRIPT_URL is not set!');

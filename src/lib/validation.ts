@@ -17,6 +17,7 @@ export const surveySchema = z.object({
         departmentOther: z.string().optional(),
         telecomExperience: z.string().min(1, 'Experience is required'),
         company: z.string().min(1, 'Company is required'),
+        companyOther: z.string().optional(),
     }),
     sectionB: z.object({
         familiarityWithESG: z.nativeEnum(FamiliarityLevel),
@@ -55,6 +56,7 @@ export const surveySchema = z.object({
     }),
     sectionE: z.object({
         strategicChallenges: z.array(z.string()).min(1, 'Select at least one challenge'),
+        strategicChallengesOther: z.string().optional(),
         barrierSignificance: z.object({
             financialConstraints: barrierSignificanceSchema,
             lackOfSkills: barrierSignificanceSchema,
@@ -83,6 +85,7 @@ export const defaultValues: SurveySchemaType = {
         departmentOther: '',
         telecomExperience: '',
         company: '',
+        companyOther: '',
     },
     sectionB: {
         familiarityWithESG: FamiliarityLevel.NotAtAllFamiliar,
@@ -121,6 +124,7 @@ export const defaultValues: SurveySchemaType = {
     },
     sectionE: {
         strategicChallenges: [],
+        strategicChallengesOther: '',
         barrierSignificance: {
             financialConstraints: BarrierSignificance.NotSignificant,
             lackOfSkills: BarrierSignificance.NotSignificant,

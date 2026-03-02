@@ -71,7 +71,8 @@ function getOrCreateFeedbackSheet() {
       'Difficulty',
       'Length',
       'Experience Rating',
-      'Comments'
+      'Comments',
+      'IP Address'
     ];
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight('bold');
     sheet.setFrozenRows(1);
@@ -92,17 +93,19 @@ function doPost(e) {
         r.difficulty,
         r.length,
         r.experience,
-        r.comments || ''
+        r.comments || '',
+        data.ip || ''
       ];
       sheet.appendRow(row);
     } else {
       const sheet = getOrCreateSheet();
-      const role = r.sectionA.role === 'Other (please specify)' ? r.sectionA.roleOther : r.sectionA.role;
-      const dept = r.sectionA.department === 'Other (please specify)' ? r.sectionA.departmentOther : r.sectionA.department;
+      const role = r.sectionA.role === 'Other' ? r.sectionA.roleOther : r.sectionA.role;
+      const dept = r.sectionA.department === 'Other' ? r.sectionA.departmentOther : r.sectionA.department;
+      const company = r.sectionA.company === 'Other' ? r.sectionA.companyOther : r.sectionA.company;
 
       const row = [
         new Date().toLocaleString(),
-        r.sectionA.company,
+        company,
         role,
         dept,
         r.sectionA.telecomExperience,
@@ -129,7 +132,7 @@ function doPost(e) {
         (r.sectionD.financialBenefits || []).join(', '),
         r.sectionD.profitabilityAgreement,
         r.sectionD.measurableLink,
-        (r.sectionE.strategicChallenges || []).join(', '),
+        (r.sectionE.strategicChallenges || []).map(c => c === 'Other' ? `Other: ${r.sectionE.strategicChallengesOther}` : c).join(', '),
         r.sectionE.barrierSignificance.financialConstraints,
         r.sectionE.barrierSignificance.lackOfSkills,
         r.sectionE.barrierSignificance.limitedData,

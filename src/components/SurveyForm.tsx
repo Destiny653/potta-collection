@@ -244,7 +244,7 @@ function SectionAStep() {
             <div className="space-y-4">
                 <p className="text-base sm:text-lg font-medium text-gray-700">1. What is your role in the company?</p>
                 <div className="space-y-3 pl-2">
-                    {['Senior Manager / Executive', 'Middle Manager', 'Non Management Staff', 'Other (please specify)'].map((role) => (
+                    {['Senior Manager / Executive', 'Middle Manager', 'Non Management Staff', 'Other'].map((role) => (
                         <div key={role} className="flex items-start space-x-3 group">
                             <input
                                 type="radio"
@@ -258,7 +258,7 @@ function SectionAStep() {
                             </Label>
                         </div>
                     ))}
-                    {selectedRole === 'Other (please specify)' && (
+                    {selectedRole === 'Other' && (
                         <div className="pl-8 pt-2">
                             <Input
                                 placeholder="Please specify your role"
@@ -274,7 +274,7 @@ function SectionAStep() {
             <div className="space-y-4">
                 <p className="text-lg font-medium text-gray-700">2. Which department do you work in?</p>
                 <div className="space-y-3 pl-2">
-                    {['Finance', 'ESG / Sustainability', 'Human Resources', 'Legal compliance', 'IT', 'Other (please specify)'].map((dept) => (
+                    {['Finance', 'ESG / Sustainability', 'Human Resources', 'Legal compliance', 'IT', 'Other'].map((dept) => (
                         <div key={dept} className="flex items-start space-x-3 group">
                             <input
                                 type="radio"
@@ -288,7 +288,7 @@ function SectionAStep() {
                             </Label>
                         </div>
                     ))}
-                    {selectedDepartment === 'Other (please specify)' && (
+                    {selectedDepartment === 'Other' && (
                         <div className="pl-8 pt-2">
                             <Input
                                 placeholder="Please specify your department"
@@ -325,7 +325,7 @@ function SectionAStep() {
             <div className="space-y-4">
                 <p className="text-lg font-medium text-gray-700">4. Which telecom company are you employed by?</p>
                 <div className="space-y-3 pl-2">
-                    {['MTN Cameroon', 'Orange Cameroon', 'CAMTEL', 'NEXTTEL'].map((company) => (
+                    {['MTN Cameroon', 'Orange Cameroon', 'CAMTEL', 'NEXTTEL', 'Other'].map((company) => (
                         <div key={company} className="flex items-start space-x-3 group">
                             <input
                                 type="radio"
@@ -339,6 +339,15 @@ function SectionAStep() {
                             </Label>
                         </div>
                     ))}
+                    {watch('sectionA.company') === 'Other' && (
+                        <div className="pl-8 pt-2">
+                            <Input
+                                placeholder="Please specify your company"
+                                className="max-w-md border-b-2 border-x-0 border-t-0 rounded-none focus:ring-0 focus:border-blue-900 px-0 h-10 bg-transparent"
+                                {...register('sectionA.companyOther')}
+                            />
+                        </div>
+                    )}
                 </div>
                 {errors.sectionA?.company && <p className="text-red-500 text-sm mt-1">{errors.sectionA.company.message}</p>}
             </div>
@@ -642,7 +651,8 @@ function SectionEStep() {
                         'Low regulatory pressure',
                         'Lack of industry ESG standards',
                         'Difficulty measuring ESG impact',
-                        'Low management priority'
+                        'Low management priority',
+                        'Other'
                     ].map(c => (
                         <div key={c} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-blue-900 hover:bg-gray-50 cursor-pointer transition-all">
                             <Checkbox checked={selectedChallenges.includes(c)} onCheckedChange={() => handleChallengeToggle(c)} className="h-5 w-5 data-[state=checked]:bg-blue-900" />
@@ -650,6 +660,15 @@ function SectionEStep() {
                         </div>
                     ))}
                 </div>
+                {selectedChallenges.includes('Other') && (
+                    <div className="pl-2 pt-2">
+                        <Input
+                            placeholder="Please specify other challenges"
+                            className="max-w-md border-b-2 border-x-0 border-t-0 rounded-none focus:ring-0 focus:border-blue-900 px-0 h-10 bg-transparent"
+                            {...register('sectionE.strategicChallengesOther')}
+                        />
+                    </div>
+                )}
                 {errors.sectionE?.strategicChallenges && <p className="text-red-500 text-sm mt-2 font-medium">{errors.sectionE.strategicChallenges.message}</p>}
             </div>
 
@@ -830,9 +849,9 @@ function FeedbackForm({ onComplete }: { onComplete: () => void }) {
                 <CardContent className="px-4">
                     <form id="feedback-form" onSubmit={submitFeedback} className="space-y-8">
                         <div className="space-y-4">
-                            <Label className="text-base font-semibold">1. How difficult was it to answer the questions?</Label>
+                            <Label className="text-base font-semibold">1. Rate the overall clarity of the questions:</Label>
                             <div className="flex flex-wrap gap-3">
-                                {['Easy', 'Moderate', 'Difficult'].map((opt) => (
+                                {['Very clear', 'Clear', 'Some ambiguity', 'Not clear at all'].map((opt) => (
                                     <Button
                                         key={opt}
                                         type="button"

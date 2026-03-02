@@ -113,7 +113,7 @@ export const generateFormattedOutput = (data: SurveySchemaType): string => {
   `;
 
   const getDisplayValue = (field: string, otherValue?: string) => {
-    if (field === 'Other (please specify)' && otherValue) {
+    if (field === 'Other' && otherValue) {
       return otherValue;
     }
     return field;
@@ -199,15 +199,15 @@ export const generateFormattedOutput = (data: SurveySchemaType): string => {
           <div class="meta-grid">
             <div class="field">
               <div class="label">Company</div>
-              <div class="value">${data.sectionA.company}</div>
+              <div class="value">${getDisplayValue(data.sectionA.company, data.sectionA.companyOther)}</div>
             </div>
             <div class="field">
               <div class="label">Role</div>
-              <div class="value">${getDisplayValue(data.sectionA.role, (data.sectionA as any).roleOther)}</div>
+              <div class="value">${getDisplayValue(data.sectionA.role, data.sectionA.roleOther)}</div>
             </div>
             <div class="field">
               <div class="label">Department</div>
-              <div class="value">${getDisplayValue(data.sectionA.department, (data.sectionA as any).departmentOther)}</div>
+              <div class="value">${getDisplayValue(data.sectionA.department, data.sectionA.departmentOther)}</div>
             </div>
             <div class="field">
               <div class="label">Experience</div>
@@ -266,7 +266,7 @@ export const generateFormattedOutput = (data: SurveySchemaType): string => {
           <div class="field">
             <div class="label">Primary Strategic Challenges</div>
             <div class="tag-container">
-              ${data.sectionE.strategicChallenges.map(c => `<span class="tag selected">⚠ ${c}</span>`).join('')}
+              ${data.sectionE.strategicChallenges.map(c => `<span class="tag selected">⚠ ${c === 'Other' ? `Other: ${data.sectionE.strategicChallengesOther}` : c}</span>`).join('')}
             </div>
           </div>
           ${renderBarrierSignificanceTable(data.sectionE.barrierSignificance)}
