@@ -13,7 +13,7 @@ import {
     PlusCircle,
     Database
 } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import ProductsTable from '@/components/ProductsTable';
 import DataTable from '@/components/DataTable';
 import useGetProducts from '@/hooks/useGetProducts';
