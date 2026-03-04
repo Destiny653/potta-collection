@@ -1,0 +1,269 @@
+{
+    "Home": {
+        "title": "L'impact de l'adoption de l'ESG sur la performance financière durable dans votre organisation",
+        "dashboard": "Aller au tableau de bord",
+        "purposeTitle": "But de l'étude",
+        "purposeContent": "Cette étude vise à déterminer comment les télécoms mobiles camerounaises peuvent tirer parti d'une adoption structurée de l'ESG pour garantir une performance financière à long terme sur un marché en pleine croissance.",
+        "proceduresTitle": "Procédures",
+        "proceduresContent": "Si vous acceptez de participer, vous devrez remplir le questionnaire qui suit. Ce questionnaire vous demandera de fournir le nom de votre organisation, votre niveau dans la hiérarchie de l'organisation, votre rôle et le nombre d'années d'expérience que vous avez dans les domaines liés à l'ESG. Ensuite, vous devrez donner votre avis sur la manière dont l'ESG est pratiqué par votre organisation en répondant à des questions par OUI/NON, et en fournissant quelques recommandations à la fin. Vous n'êtes à aucun moment tenu de divulguer vos informations personnelles dans le cadre de l'enquête.",
+        "risksTitle": "Risques et inconforts",
+        "risksContent": "Vous pourriez faire face à des risques de représailles de la part de votre employeur si vous fournissez un retour négatif sur les pratiques ESG et que cela parvient à leur connaissance.",
+        "benefitsTitle": "Avantages",
+        "benefitsContent": "Vous pourriez bénéficier de cette étude si votre organisation met en œuvre des actions qui apportent des avantages sociaux et financiers positifs pour les employés, bien que cela ne puisse être garanti. Vous devriez également être fier de contribuer à la création de nouvelles connaissances sur l'adoption de l'ESG au Cameroun.",
+        "confidentialityTitle": "Confidentialité",
+        "confidentialityContent": "Vos informations seront protégées et stockées de manière sécurisée.",
+        "voluntaryTitle": "Participation volontaire",
+        "voluntaryContent": "La participation est volontaire et vous pouvez vous retirer à tout moment sans pénalité. Vous êtes libre de divulguer entièrement, partiellement ou pas du tout toute information que vous jugez trop sensible pour être mise à la disposition de tiers, sans aucune pénalité.",
+        "agreementLabel": "J'ai lu les informations CI-DESSUS et j'ACCEPTE de participer à cette étude selon les conditions énoncées.",
+        "proceedButton": "Passer à l'enquête"
+    },
+    "Survey": {
+        "headerTitle": "Enquête ESG",
+        "headerSubtitle": "Télécom | Cameroun",
+        "title": "Enquête ESG Télécom",
+        "description": "Évaluation des pratiques environnementales, sociales et de gouvernance dans le secteur des télécommunications au Cameroun.",
+        "backToTerms": "Retour aux conditions",
+        "submitButton": "Soumettre la réponse finale",
+        "submitting": "Soumission...",
+        "validationError": "Veuillez corriger les erreurs de validation dans le formulaire ci-dessus avant de soumettre.",
+        "successTitle": "Merci !",
+        "successMessage": "Votre réponse à l'enquête ESG a été enregistrée avec succès. Nous apprécions votre participation à cette recherche.",
+        "submitAnother": "Envoyer une autre réponse",
+        "toast": {
+            "errorTitle": "Veuillez vérifier les champs mis en évidence.",
+            "successTitle": "Enquête soumise avec succès !",
+            "submitError": "Échec de la soumission de l'enquête. Veuillez vérifier votre connexion et réessayer."
+        }
+    },
+    "Sections": {
+        "A": {
+            "title": "SECTION A — Informations sur le répondant",
+            "q1": "1. Quel est votre rôle dans l'entreprise ?",
+            "roles": {
+                "Senior Manager / Executive": "Cadre dirigeant / Exécutif",
+                "Middle Manager": "Cadre moyen",
+                "Non Management Staff": "Personnel non cadre",
+                "Other": "Autre"
+            },
+            "roleOtherPlaceholder": "Veuillez préciser votre rôle",
+            "q2": "2. Dans quel département travaillez-vous ?",
+            "departments": {
+                "Finance": "Finance",
+                "ESG / Sustainability": "ESG / Durabilité",
+                "Human Resources": "Ressources Humaines",
+                "Legal compliance": "Conformité juridique",
+                "IT": "Informatique",
+                "Other": "Autre"
+            },
+            "deptOtherPlaceholder": "Veuillez préciser votre département",
+            "q3": "3. Combien d'années avez-vous travaillé dans le secteur des télécoms ?",
+            "experience": {
+                "0–2 years": "0–2 ans",
+                "3–5 years": "3–5 ans",
+                "6–10 years": "6–10 ans",
+                "More than 10 years": "Plus de 10 ans"
+            },
+            "q4": "4. Par quelle entreprise de télécoms êtes-vous employé ?",
+            "companies": {
+                "MTN Cameroon": "MTN Cameroun",
+                "Orange Cameroon": "Orange Cameroun",
+                "CAMTEL": "CAMTEL",
+                "NEXTTEL": "NEXTTEL",
+                "Other": "Autre"
+            },
+            "companyOtherPlaceholder": "Veuillez préciser votre entreprise"
+        },
+        "B": {
+            "title": "SECTION B — Sensibilisation et compréhension",
+            "q5": "5. Dans quelle mesure connaissez-vous le terme « ESG » (Environnement, Social et Gouvernance) ?",
+            "q6": "6. Lequel des éléments suivants décrit le mieux le niveau de pratiques de durabilité de votre entreprise ?",
+            "q7": "7. Votre entreprise publie-t-elle actuellement un rapport annuel sur le développement durable ou l'ESG ?",
+            "familiarity": {
+                "Very familiar": "Très familier",
+                "Somewhat familiar": "Assez familier",
+                "Not so familiar": "Pas très familier",
+                "Not at all familiar": "Pas du tout familier"
+            },
+            "sustainabilityLevels": {
+                "Mainly CSR activities (philanthropy, charity)": "Principalement des activités de RSE (philanthropie, charité)",
+                "A mix of CSR and early ESG elements": "Un mélange de RSE et de premiers éléments ESG",
+                "A structured ESG strategy with defined KPIs": "Une stratégie ESG structurée avec des indicateurs de performance clés (KPI) définis",
+                "No formal CSR or ESG practices": "Pas de pratiques formelles de RSE ou d'ESG",
+                "Not sure": "Pas sûr"
+            },
+            "reporting": {
+                "Yes": "Oui",
+                "No": "Non",
+                "In progress": "En cours",
+                "Not sure": "Pas sûr"
+            }
+        },
+        "C": {
+            "title": "SECTION C — Pratiques ESG actuelles",
+            "environmentalTitle": "Pratiques environnementales",
+            "socialTitle": "Pratiques sociales",
+            "governanceTitle": "Pratiques de gouvernance",
+            "implementationMainQ": {
+                "environmental": "8. Dans quelle mesure votre entreprise met-elle en œuvre les pratiques environnementales suivantes ?",
+                "social": "9. Dans quelle mesure votre entreprise met-elle en œuvre les pratiques sociales suivantes ?",
+                "governance": "10. Dans quelle mesure votre entreprise met-elle en œuvre les pratiques de gouvernance suivantes ?"
+            },
+            "tableHeader": {
+                "practice": "Pratique / Déclaration"
+            },
+            "levels": {
+                "Not at all": "Pas du tout",
+                "Slightly": "Légèrement",
+                "Moderate": "Modérément",
+                "To a large extent": "Dans une large mesure",
+                "Very extensively": "Très largement",
+                "Not sure": "Pas sûr"
+            },
+            "environmental": {
+                "energyEfficiency": "Initiatives d'efficacité énergétique (sites solaires, équipements à faible consommation d'énergie)",
+                "dataCentreEnergyManagement": "Gestion de l'énergie des réseaux ou des centres de données",
+                "wasteManagement": "Gestion et recyclage des déchets",
+                "regulatoryCompliance": "Conformité à la réglementation environnementale",
+                "environmentalTracking": "Suivi des mesures de performance environnementale (ex. émissions de CO2)"
+            },
+            "social": {
+                "employeeWellbeing": "Santé, sécurité et bien-être des employés",
+                "diversityInclusion": "Programmes de diversité et d'inclusion",
+                "communityInvestment": "Investissement communautaire / initiatives sociales",
+                "customerSatisfaction": "Programmes et enquêtes de satisfaction de la clientèle",
+                "dataPrivacyProtection": "Confidentialité et sécurité des données (cybersécurité)",
+                "trainingDevelopment": "Formation et développement des compétences des employés"
+            },
+            "governance": {
+                "boardOversight": "Surveillance au niveau du conseil d'administration pour la durabilité",
+                "ethicalConduct": "Politiques de conduite éthique et de lutte contre la corruption",
+                "riskManagement": "Intégration de l'ESG dans la gestion des risques",
+                "transparencyReporting": "Transparence dans les rapports publics",
+                "stakeholderEngagement": "Engagement des parties prenantes"
+            }
+        },
+        "D": {
+            "title": "SECTION D — Valeur et impact",
+            "q11": "11. À quel point croyez-vous que l'ESG est important pour la performance financière de votre entreprise ?",
+            "q12": "12. Quels avantages financiers spécifiques associez-vous à l'adoption de l'ESG ? (Sélectionnez tout ce qui s'applique)",
+            "q13": "13. Dans quelle mesure êtes-vous d'accord pour dire qu'une solide performance ESG conduit à une rentabilité à long terme ?",
+            "q14": "14. Croyez-vous qu'il existe un lien mesurable entre l'ESG et le succès financier ?",
+            "importance": {
+                "Extremely important": "Extrêmement important",
+                "Very important": "Très important",
+                "Somewhat important": "Assez important",
+                "Not so important": "Pas très important",
+                "Not at all important": "Pas du tout important"
+            },
+            "benefits": {
+                "Reduced operational costs": "Réduction des coûts opérationnels",
+                "Increased revenue or customer loyalty": "Augmentation des revenus ou de la fidélité des clients",
+                "Reduced cost of borrowing": "Réduction du coût de l'emprunt",
+                "Enhanced brand reputation": "Amélioration de la réputation de la marque",
+                "Improved risk management": "Amélioration de la gestion des risques",
+                "No financial benefits": "Aucun avantage financier"
+            },
+            "agreement": {
+                "Strongly agree": "Tout à fait d'accord",
+                "Agree": "D'accord",
+                "Neither agree nor disagree": "Ni d'accord ni en désaccord",
+                "Disagree": "Pas d'accord",
+                "Strongly disagree": "Pas du tout d'accord"
+            },
+            "measurableLink": {
+                "Yes": "Oui",
+                "No": "Non",
+                "Not sure": "Pas sûr"
+            }
+        },
+        "E": {
+            "title": "SECTION E — Obstacles",
+            "q15": "15. Principaux défis stratégiques (Sélectionnez tout ce qui s'applique)",
+            "q16Title": "16. Évaluez l'importance des obstacles suivants :",
+            "challenges": {
+                "Lack of knowledge or expertise": "Manque de connaissances ou d'expertise",
+                "Lack of structured ESG governance": "Manque de gouvernance ESG structurée",
+                "Limited financial resources": "Ressources financières limitées",
+                "Low regulatory pressure": "Faible pression réglementaire",
+                "Lack of industry ESG standards": "Manque de normes ESG industrielles",
+                "Difficulty measuring ESG impact": "Difficulté à mesurer l'impact ESG",
+                "Low management priority": "Faible priorité de la direction",
+                "Other": "Autre"
+            },
+            "challengesOtherPlaceholder": "Veuillez préciser d'autres défis",
+            "tableHeader": {
+                "barrier": "Obstacle"
+            },
+            "barriers": {
+                "financialConstraints": "Ressources financières limitées",
+                "lackOfSkills": "Manque de compétences / d'expertise pertinentes",
+                "limitedData": "Données de qualité limitée pour mesurer la performance",
+                "resistanceToChange": "Résistance interne au changement",
+                "lackOfGuidance": "Manque de directives réglementaires claires"
+            },
+            "significance": {
+                "Not significant": "Pas significatif",
+                "Slightly significant": "Légèrement significatif",
+                "Moderately significant": "Moyennement significatif",
+                "Very significant": "Très significatif",
+                "Extremely significant": "Extrêmement significatif"
+            }
+        },
+        "F": {
+            "title": "SECTION F — Préparation interne",
+            "q17": "17. Dans quelle mesure votre entreprise est-elle préparée en interne pour le rapportage ESG obligatoire ?",
+            "q18": "18. Votre entreprise dispose-t-elle d'une équipe dédiée à l'ESG ou au développement durable ?",
+            "q19": "19. Quels indicateurs sont actuellement suivis ? (Sélectionnez tout ce qui s'applique)",
+            "readiness": {
+                "Fully prepared": "Entièrement préparée",
+                "Moderately prepared": "Moyennement préparée",
+                "Not prepared": "Pas préparée",
+                "Not sure": "Pas sûr"
+            },
+            "dedicatedTeam": {
+                "Yes": "Oui",
+                "No": "Non",
+                "Under discussion": "En cours de discussion"
+            },
+            "indicators": {
+                "Energy consumption": "Consommation d'énergie",
+                "CO₂ emissions": "Émissions de CO₂",
+                "Employee satisfaction metrics": "Mesures de satisfaction des employés",
+                "Data privacy or security incidents": "Incidents de confidentialité ou de sécurité des données",
+                "Governance or compliance indicators": "Indicateurs de gouvernance ou de conformité"
+            }
+        },
+        "G": {
+            "title": "SECTION G — Questions ouvertes",
+            "q20": "20. Quelles recommandations donneriez-vous pour améliorer l'adoption de l'ESG dans le secteur des télécoms au Cameroun ?",
+            "recommendationsPlaceholder": "Tapez vos recommandations ici..."
+        }
+    },
+    "Feedback": {
+        "title": "Dernière étape : Votre avis",
+        "description": "Vos réflexions sur cette expérience d'enquête comptent pour nous.",
+        "q1": "1. Évaluez la clarté globale des questions : très claire, claire, quelques ambiguïtés, pas claire du tout",
+        "q2": "2. L'enquête était-elle trop longue ?",
+        "q3": "3. Comment évalueriez-vous votre expérience globale ? (1-5)",
+        "q4": "4. Commentaires ou suggestions supplémentaires ?",
+        "clarityOptions": {
+            "very clear": "très claire",
+            "clear": "claire",
+            "some ambiguity": "quelques ambiguïtés",
+            "not clear at all": "pas claire du tout"
+        },
+        "lengthOptions": {
+            "Too short": "Trop courte",
+            "Just right": "Juste ce qu'il faut",
+            "Too long": "Trop longue"
+        },
+        "commentsPlaceholder": "Dites-nous en plus...",
+        "submitButton": "Terminer et finir",
+        "submitting": "Soumission...",
+        "footer": "Votre avis nous aide à améliorer notre méthodologie de recherche.",
+        "toast": {
+            "success": "Merci pour votre avis !",
+            "error": "Échec de la soumission de l'avis."
+        }
+    }
+}

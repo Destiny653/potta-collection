@@ -1,0 +1,269 @@
+{
+    "Home": {
+        "title": "The Impact of ESG adoption on Sustainable Financial Performance in your Organization",
+        "dashboard": "Go to Dashboard",
+        "purposeTitle": "Purpose of the Study",
+        "purposeContent": "This study aims to investigate on how Cameroonian Mobile Telecoms can leverage structured ESG adoption to secure long-term financial performance in a growing market.",
+        "proceduresTitle": "Procedures",
+        "proceduresContent": "If you agree to participate, you are required to complete a questionnaire that follows. This questionnaire will require you to provide the name of your organization, your level in the organization’s hierarchy, your role, and the years of experience you have in ESG related topics. Then you will be required to provide your opinion on how ESG is being practiced by your organization by answering YES/NO question, and providing a few recommendations at the end. You are not required to disclose your personal information in at any time in the survey.",
+        "risksTitle": "Risks and Discomforts",
+        "risksContent": "You might face retaliation risks from your employer if you provide negative feedback on ESG practices and this comes to their notice.",
+        "benefitsTitle": "Benefits",
+        "benefitsContent": "You may benefit from this study if your organization implements actions that bring positive social and financial benefits for employees although this cannot be guaranteed. You should also be proud to contribute to the creation of new knowledge on ESG adoption in Cameroon.",
+        "confidentialityTitle": "Confidentiality",
+        "confidentialityContent": "Your information will be protected and stored securely.",
+        "voluntaryTitle": "Voluntary Participation",
+        "voluntaryContent": "Participation is voluntary, and you may withdraw at any time without penalty. You are free to fully disclose, partially disclose or not disclose at all any information you deem to sensitive to be made available to outsiders, without any penalties.",
+        "agreementLabel": "I have read the ABOVE information and AGREE to participate in this study under the stated conditions.",
+        "proceedButton": "Proceed to Survey"
+    },
+    "Survey": {
+        "headerTitle": "ESG Survey",
+        "headerSubtitle": "Telecom | Cameroon",
+        "title": "ESG Telecom Survey",
+        "description": "Evaluating Environmental, Social, and Governance practices in the Cameroon telecommunications sector.",
+        "backToTerms": "Back to Terms",
+        "submitButton": "Submit Final Response",
+        "submitting": "Submitting...",
+        "validationError": "Please fix the validation errors in the form above before submitting.",
+        "successTitle": "Thank You!",
+        "successMessage": "Your ESG survey response has been successfully recorded. We appreciate your participation in this research.",
+        "submitAnother": "Submit Another Response",
+        "toast": {
+            "errorTitle": "Please check the highlighted fields.",
+            "successTitle": "Survey submitted successfully!",
+            "submitError": "Failed to submit survey. Please check your connection and try again."
+        }
+    },
+    "Sections": {
+        "A": {
+            "title": "SECTION A — Respondent Information",
+            "q1": "1. What is your role in the company?",
+            "roles": {
+                "Senior Manager / Executive": "Senior Manager / Executive",
+                "Middle Manager": "Middle Manager",
+                "Non Management Staff": "Non Management Staff",
+                "Other": "Other"
+            },
+            "roleOtherPlaceholder": "Please specify your role",
+            "q2": "2. Which department do you work in?",
+            "departments": {
+                "Finance": "Finance",
+                "ESG / Sustainability": "ESG / Sustainability",
+                "Human Resources": "Human Resources",
+                "Legal compliance": "Legal compliance",
+                "IT": "IT",
+                "Other": "Other"
+            },
+            "deptOtherPlaceholder": "Please specify your department",
+            "q3": "3. How many years have you worked in the telecom sector?",
+            "experience": {
+                "0–2 years": "0–2 years",
+                "3–5 years": "3–5 years",
+                "6–10 years": "6–10 years",
+                "More than 10 years": "More than 10 years"
+            },
+            "q4": "4. Which telecom company are you employed by?",
+            "companies": {
+                "MTN Cameroon": "MTN Cameroon",
+                "Orange Cameroon": "Orange Cameroon",
+                "CAMTEL": "CAMTEL",
+                "NEXTTEL": "NEXTTEL",
+                "Other": "Other"
+            },
+            "companyOtherPlaceholder": "Please specify your company"
+        },
+        "B": {
+            "title": "SECTION B — Awareness & Understanding",
+            "q5": "5. How familiar are you with the term 'ESG' (Environmental, Social, and Governance)?",
+            "q6": "6. Which of the following best describes your company's level of sustainability practices?",
+            "q7": "7. Does your company currently publish an annual sustainability or ESG report?",
+            "familiarity": {
+                "Very familiar": "Very familiar",
+                "Somewhat familiar": "Somewhat familiar",
+                "Not so familiar": "Not so familiar",
+                "Not at all familiar": "Not at all familiar"
+            },
+            "sustainabilityLevels": {
+                "Mainly CSR activities (philanthropy, charity)": "Mainly CSR activities (philanthropy, charity)",
+                "A mix of CSR and early ESG elements": "A mix of CSR and early ESG elements",
+                "A structured ESG strategy with defined KPIs": "A structured ESG strategy with defined KPIs",
+                "No formal CSR or ESG practices": "No formal CSR or ESG practices",
+                "Not sure": "Not sure"
+            },
+            "reporting": {
+                "Yes": "Yes",
+                "No": "No",
+                "In progress": "In progress",
+                "Not sure": "Not sure"
+            }
+        },
+        "C": {
+            "title": "SECTION C — Current ESG Practices",
+            "environmentalTitle": "Environmental Practices",
+            "socialTitle": "Social Practices",
+            "governanceTitle": "Governance Practices",
+            "implementationMainQ": {
+                "environmental": "8. To what extent does your company implement the following environmental practices?",
+                "social": "9. To what extent does your company implement the following social practices?",
+                "governance": "10. To what extent does your company implement the following governance practices?"
+            },
+            "tableHeader": {
+                "practice": "Practice / Statement"
+            },
+            "levels": {
+                "Not at all": "Not at all",
+                "Slightly": "Slightly",
+                "Moderate": "Moderate",
+                "To a large extent": "To a large extent",
+                "Very extensively": "Very extensively",
+                "Not sure": "Not sure"
+            },
+            "environmental": {
+                "energyEfficiency": "Energy efficiency initiatives (solar sites, low energy equipment)",
+                "dataCentreEnergyManagement": "Network or data centre energy management",
+                "wasteManagement": "Waste management & recycling",
+                "regulatoryCompliance": "Environmental regulatory compliance",
+                "environmentalTracking": "Tracking environmental performance metrics (e.g., CO₂ emissions)"
+            },
+            "social": {
+                "employeeWellbeing": "Employee health, safety, and wellbeing",
+                "diversityInclusion": "Diversity & inclusion programs",
+                "communityInvestment": "Community investment / social initiatives",
+                "customerSatisfaction": "Customer satisfaction programs and surveys",
+                "dataPrivacyProtection": "Data privacy and security (cybersecurity)",
+                "trainingDevelopment": "Employee training and skill development"
+            },
+            "governance": {
+                "boardOversight": "Board-level oversight for sustainability",
+                "ethicalConduct": "Policies for ethical conduct and anti-corruption",
+                "riskManagement": "Integration of ESG into risk management",
+                "transparencyReporting": "Transparency in public reporting",
+                "stakeholderEngagement": "Stakeholder engagement"
+            }
+        },
+        "D": {
+            "title": "SECTION D — Value & Impact",
+            "q11": "11. How important do you believe ESG is for the financial performance of your company?",
+            "q12": "12. What specific financial benefits do you associate with ESG adoption? (Select all that apply)",
+            "q13": "13. To what extent do you agree that strong ESG performance leads to long-term profitability?",
+            "q14": "14. Do you believe there is a measurable link between ESG and financial success?",
+            "importance": {
+                "Extremely important": "Extremely important",
+                "Very important": "Very important",
+                "Somewhat important": "Somewhat important",
+                "Not so important": "Not so important",
+                "Not at all important": "Not at all important"
+            },
+            "benefits": {
+                "Reduced operational costs": "Reduced operational costs",
+                "Increased revenue or customer loyalty": "Increased revenue or customer loyalty",
+                "Reduced cost of borrowing": "Reduced cost of borrowing",
+                "Enhanced brand reputation": "Enhanced brand reputation",
+                "Improved risk management": "Improved risk management",
+                "No financial benefits": "No financial benefits"
+            },
+            "agreement": {
+                "Strongly agree": "Strongly agree",
+                "Agree": "Agree",
+                "Neither agree nor disagree": "Neither agree nor disagree",
+                "Disagree": "Disagree",
+                "Strongly disagree": "Strongly disagree"
+            },
+            "measurableLink": {
+                "Yes": "Yes",
+                "No": "No",
+                "Not sure": "Not sure"
+            }
+        },
+        "E": {
+            "title": "SECTION E — Barriers",
+            "q15": "15. Primary Strategic Challenges (Select all that apply)",
+            "q16Title": "16. Rate the significance of the following barriers:",
+            "challenges": {
+                "Lack of knowledge or expertise": "Lack of knowledge or expertise",
+                "Lack of structured ESG governance": "Lack of structured ESG governance",
+                "Limited financial resources": "Limited financial resources",
+                "Low regulatory pressure": "Low regulatory pressure",
+                "Lack of industry ESG standards": "Lack of industry ESG standards",
+                "Difficulty measuring ESG impact": "Difficulty measuring ESG impact",
+                "Low management priority": "Low management priority",
+                "Other": "Other"
+            },
+            "challengesOtherPlaceholder": "Please specify other challenges",
+            "tableHeader": {
+                "barrier": "Barrier"
+            },
+            "barriers": {
+                "financialConstraints": "Limited financial resources",
+                "lackOfSkills": "Lack of relevant skills/expertise",
+                "limitedData": "Limited quality data to measure performance",
+                "resistanceToChange": "Internal resistance to change",
+                "lackOfGuidance": "Lack of clear regulatory guidance"
+            },
+            "significance": {
+                "Not significant": "Not significant",
+                "Slightly significant": "Slightly significant",
+                "Moderately significant": "Moderately significant",
+                "Very significant": "Very significant",
+                "Extremely significant": "Extremely significant"
+            }
+        },
+        "F": {
+            "title": "SECTION F — Internal Readiness",
+            "q17": "17. How prepared is your company internally for mandatory ESG reporting?",
+            "q18": "18. Does your company have a dedicated ESG or Sustainability team?",
+            "q19": "19. Which indicators are currently tracked? (Select all that apply)",
+            "readiness": {
+                "Fully prepared": "Fully prepared",
+                "Moderately prepared": "Moderately prepared",
+                "Not prepared": "Not prepared",
+                "Not sure": "Not sure"
+            },
+            "dedicatedTeam": {
+                "Yes": "Yes",
+                "No": "No",
+                "Under discussion": "Under discussion"
+            },
+            "indicators": {
+                "Energy consumption": "Energy consumption",
+                "CO₂ emissions": "CO₂ emissions",
+                "Employee satisfaction metrics": "Employee satisfaction metrics",
+                "Data privacy or security incidents": "Data privacy or security incidents",
+                "Governance or compliance indicators": "Governance or compliance indicators"
+            }
+        },
+        "G": {
+            "title": "SECTION G — Open Ended",
+            "q20": "20. What recommendations would you give for improving ESG adoption in the Cameroon telecom sector?",
+            "recommendationsPlaceholder": "Type your recommendations here..."
+        }
+    },
+    "Feedback": {
+        "title": "Final Step: Your Feedback",
+        "description": "We value your thoughts on this survey experience.",
+        "q1": "1. Rate the overall clarity of the questions: very clear, clear, some ambiguity, not clear at all",
+        "q2": "2. Was the survey too lengthy?",
+        "q3": "3. How would you rate your overall experience? (1-5)",
+        "q4": "4. Any additional comments or suggestions?",
+        "clarityOptions": {
+            "very clear": "very clear",
+            "clear": "clear",
+            "some ambiguity": "some ambiguity",
+            "not clear at all": "not clear at all"
+        },
+        "lengthOptions": {
+            "Too short": "Too short",
+            "Just right": "Just right",
+            "Too long": "Too long"
+        },
+        "commentsPlaceholder": "Tell us more...",
+        "submitButton": "Complete & Finish",
+        "submitting": "Submitting...",
+        "footer": "Your feedback helps us improve our research methodology.",
+        "toast": {
+            "success": "Thank you for your feedback!",
+            "error": "Failed to submit feedback."
+        }
+    }
+}

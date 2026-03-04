@@ -142,3 +142,12 @@ export const defaultValues: SurveySchemaType = {
         recommendations: '',
     },
 };
+
+export const feedbackSchema = z.object({
+    clarity: z.enum(['very clear', 'clear', 'some ambiguity', 'not clear at all']),
+    length: z.enum(['Too short', 'Just right', 'Too long']),
+    experience: z.number().min(1, 'Please rate your experience').max(5),
+    comments: z.string().optional(),
+});
+
+export type FeedbackSchemaType = z.infer<typeof feedbackSchema>;

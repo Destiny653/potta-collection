@@ -7,11 +7,31 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Checkbox } from '@/components/ui/checkbox';
 import { ShieldCheck, ArrowRight, Building2, LayoutDashboard, Microscope, BookOpen, AlertCircle, Award, Lock, UserCheck } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 export default function SurveyPage() {
-  const [hasAgreed, setHasAgreed] = useState(false);
+  const t = useTranslations('Home');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const hasAgreed = searchParams.get('agreed') === 'true';
   const [checked, setChecked] = useState(false);
+
+  const handleProceed = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('agreed', 'true');
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleBack = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('agreed');
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   React.useEffect(() => {
     if (hasAgreed) {
@@ -29,15 +49,13 @@ export default function SurveyPage() {
               <div className="bg-blue-50 p-3 rounded-xl">
                 <Building2 className="h-8 w-8 text-blue-900" />
               </div>
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="text-blue-900 hover:bg-blue-50 font-semibold gap-2">
-                  <LayoutDashboard className="h-4 w-4" /> Go to Dashboard
-                </Button>
-              </Link>
+              <div className="flex items-center gap-4">
+                <LanguageSwitcher />
+              </div>
             </div>
             <div className="px-4">
               <CardTitle className="text-2xl md:text-4xl font-extrabold text-blue-900 leading-tight">
-                The Impact of ESG adoption on Sustainable Financial Performance in your Organization
+                {t('title')}
               </CardTitle>
               <div className="mt-6 flex flex-col md:flex-row justify-center items-center gap-4 text-gray-600">
                 <div className="flex items-center gap-2">
@@ -53,55 +71,55 @@ export default function SurveyPage() {
           <CardContent className="space-y-8 p-8">
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <Microscope className="h-5 w-5" /> - Purpose of the Study
+                <Microscope className="h-5 w-5" /> - {t('purposeTitle')}
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
-                This study aims to investigate on how Cameroonian Mobile Telecoms can leverage structured ESG adoption to secure long-term financial performance in a growing market.
+                {t('purposeContent')}
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <BookOpen className="h-5 w-5" /> - Procedures
+                <BookOpen className="h-5 w-5" /> - {t('proceduresTitle')}
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
-                If you agree to participate, you are required to complete a questionnaire that follows. This questionnaire will require you to provide the name of your organization, your level in the organization’s hierarchy, your role, and the years of experience you have in ESG related topics. Then you will be required to provide your opinion on how ESG is being practiced by your organization by answering YES/NO question, and providing a few recommendations at the end. You are not required to disclose your personal information in at any time in the survey.
+                {t('proceduresContent')}
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <AlertCircle className="h-5 w-5" /> - Risks and Discomforts
-              </h3>
-                <p className="text-gray-700 leading-relaxed pl-7">
-                 You might face retaliation risks from your employer if you provide negative feedback on ESG practices and this comes to their notice.
-                </p>
-            </section>
-
-            <section className="space-y-3">
-              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <Award className="h-5 w-5" /> - Benefits
+                <AlertCircle className="h-5 w-5" /> - {t('risksTitle')}
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
-                You may benefit from this study if your organization implements actions that bring positive social and financial benefits for employees although this cannot be guaranteed. You should also be proud to contribute to the creation of new knowledge on ESG adoption in Cameroon.
+                {t('risksContent')}
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <Lock className="h-5 w-5" /> - Confidentiality
+                <Award className="h-5 w-5" /> - {t('benefitsTitle')}
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
-                Your information will be protected and stored securely.
+                {t('benefitsContent')}
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
-                <ShieldCheck className="h-5 w-5 text-green-600" /> - Voluntary Participation
+                <Lock className="h-5 w-5" /> - {t('confidentialityTitle')}
               </h3>
               <p className="text-gray-700 leading-relaxed pl-7">
-                Participation is voluntary, and you may withdraw at any time without penalty. You are free to fully disclose, partially disclose or not disclose at all any information you deem to sensitive to be made available to outsiders, without any penalties.
+                {t('confidentialityContent')}
+              </p>
+            </section>
+
+            <section className="space-y-3">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-blue-900">
+                <ShieldCheck className="h-5 w-5 text-green-600" /> - {t('voluntaryTitle')}
+              </h3>
+              <p className="text-gray-700 leading-relaxed pl-7">
+                {t('voluntaryContent')}
               </p>
             </section>
           </CardContent>
@@ -120,7 +138,7 @@ export default function SurveyPage() {
                 htmlFor="terms"
                 className="text-base font-semibold leading-snug cursor-pointer select-none text-gray-800 group-hover:text-blue-900 transition-colors"
               >
-                I have read the ABOVE information and AGREE to participate in this study under the stated conditions.
+                {t('agreementLabel')}
               </label>
             </div>
 
@@ -128,9 +146,9 @@ export default function SurveyPage() {
               <Button
                 className="w-full sm:w-auto bg-blue-900 hover:bg-blue-800 py-6 sm:py-8 px-12 sm:px-20 text-lg sm:text-xl text-white font-bold shadow-xl transition-all active:scale-[0.98] disabled:bg-blue-600 rounded-xl flex items-center justify-center h-auto"
                 disabled={!checked}
-                onClick={() => setHasAgreed(true)}
+                onClick={handleProceed}
               >
-                Proceed to Survey <ArrowRight className="ml-3 h-6 w-6" />
+                {t('proceedButton')} <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
             </div>
           </CardFooter>
@@ -151,18 +169,14 @@ export default function SurveyPage() {
               <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Telecom | Cameroon</p>
             </div>
           </div>
-          {/* <div className="flex items-center gap-4">
-            <Link href="/dashboard">
-              <Button variant="outline" size="sm" className="hidden md:flex border-blue-900 text-blue-900 font-semibold gap-2 hover:bg-blue-50">
-                <LayoutDashboard className="h-4 w-4" /> Dashboard
-              </Button>
-            </Link>
-          </div> */}
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+          </div>
         </div>
       </header>
 
       <div className="max-w-5xl mx-auto px-2 pt-10">
-        <SurveyForm onBack={() => setHasAgreed(false)} />
+        <SurveyForm onBack={handleBack} />
       </div>
     </main>
   );
